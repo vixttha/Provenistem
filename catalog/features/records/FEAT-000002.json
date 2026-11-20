@@ -2,7 +2,7 @@
   "schema_version": 1,
   "id": "FEAT-000002",
   "title": "Offline structural validation",
-  "summary": "The optional Python CLI checks local records and relationships using the standard library.",
+  "summary": "The optional Python CLI checks local records and relationships using the standard library. The current record parser accepts duplicate JSON member names. The adopter audit records that validation gap.",
   "kind": "capability",
   "lifecycle_status": "verified",
   "implementation_status": "implemented",
@@ -34,6 +34,13 @@
       "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
       "source_path": "packages/provenistem/tests/test_hardening.py",
       "receipt": "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    },
+    {
+      "kind": "other",
+      "claim": "Lydite reported duplicate-field acceptance, which was also confirmed on the v0.0.2 public validator.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tools/library.py",
+      "receipt": "https://github.com/vixttha/Lydite-Test-Vault-Template/issues/121"
     }
   ],
   "release_membership": "NOT_ASSERTED"

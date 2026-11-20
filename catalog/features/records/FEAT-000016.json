@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000016",
+  "title": "Provenistem tracks its own development",
+  "summary": "The project uses its v0.0.2 starter to maintain the standalone Provenistem branch catalog. The initial snapshot contained 10 ideas, 15 features, and two generated indexes.",
+  "kind": "workflow",
+  "lifecycle_status": "verified",
+  "implementation_status": "implemented",
+  "idea_ids": [
+    "IDEA-000001"
+  ],
+  "acceptance_criteria": [
+    "The project catalog lives on its dedicated Provenistem branch and uses the portable schemas.",
+    "Public Ubuntu and Windows jobs validate the populated project catalog and generated indexes alongside the empty starter."
+  ],
+  "testing": {
+    "status": "tested",
+    "outcome": "pass",
+    "refs": [
+      "https://github.com/vixttha/Provenistem/actions/runs/44696477080/attempts/1"
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "implementation",
+      "claim": "The first project-owned catalog is recorded at this revision.",
+      "source_sha": "b7da387da5838216e3c7f42fa807b80523d8da5d",
+      "source_path": "catalog/README.md",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/b7da387da5838216e3c7f42fa807b80523d8da5d/catalog/README.md"
+    },
+    {
+      "kind": "test",
+      "claim": "Both public jobs passed populated catalog and empty starter validation.",
+      "source_sha": "b7da387da5838216e3c7f42fa807b80523d8da5d",
+      "source_path": ".github/workflows/validate.yml",
+      "receipt": "https://github.com/vixttha/Provenistem/actions/runs/44696477080/attempts/1"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

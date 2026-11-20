@@ -2,6 +2,8 @@
 
 This branch uses the Provenistem v0.0.2 starter to track the Provenistem project itself. Project records live in this catalog. The starter package has its own empty record directories.
 
+[Adopter bug audit and dogfooding milestone](ADOPTER-BUG-AUDIT.md)
+
 ## Ideas
 
 | Record | Idea |
@@ -16,6 +18,7 @@ This branch uses the Provenistem v0.0.2 starter to track the Provenistem project
 | [IDEA-000008](ideas/records/IDEA-000008.json) | Make index rows open their records |
 | [IDEA-000009](ideas/records/IDEA-000009.json) | Use multiple adopter catalogs for conformance |
 | [IDEA-000010](ideas/records/IDEA-000010.json) | Keep external technique catalogs separate |
+| [IDEA-000011](ideas/records/IDEA-000011.json) | Reject duplicate JSON fields in canonical records |
 
 ## Features
 
@@ -36,6 +39,7 @@ This branch uses the Provenistem v0.0.2 starter to track the Provenistem project
 | [FEAT-000013](features/records/FEAT-000013.json) | Public adopter conformance checks | proposed |
 | [FEAT-000014](features/records/FEAT-000014.json) | Clickable generated catalog indexes | proposed |
 | [FEAT-000015](features/records/FEAT-000015.json) | Optional Graphify evidence links | proposed |
+| [FEAT-000016](features/records/FEAT-000016.json) | Provenistem tracks its own development | verified |
 
 ## Audit sources
 

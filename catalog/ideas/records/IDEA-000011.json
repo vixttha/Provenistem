@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000011",
+  "title": "Reject duplicate JSON fields in canonical records",
+  "summary": "Make record loading reject duplicate member names in ideas and features, including nested objects, with a path-specific diagnostic. A Lydite report and a disposable check of Provenistem v0.0.2 both observed conflicting fields passing validation.",
+  "kind": "feature",
+  "origin": {
+    "created_by": "assistant",
+    "source": "Lydite Test Vault issue #121 and the Provenistem adopter bug audit on 2026-11-20."
+  },
+  "lifecycle_status": "triaged",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "high",
+  "complexity": "unknown",
+  "categories": [
+    "validation",
+    "record-integrity"
+  ],
+  "benefits": [
+    "Preserves one unambiguous reading of each canonical record."
+  ],
+  "risks": [
+    "Existing records with duplicate fields require deliberate reconciliation before they can pass the stricter validator."
+  ],
+  "related_ideas": [
+    "IDEA-000009"
+  ],
+  "evidence": [
+    {
+      "relation": "supports",
+      "claim": "The Lydite adopter report documents duplicate-field acceptance.",
+      "repository": "vixttha/Lydite-Test-Vault-Template",
+      "commit": "175c1b9bb280d35a64c062a40882e9c44fd5336d",
+      "path": "provenistem/tools/library.py"
+    },
+    {
+      "relation": "supports",
+      "claim": "The v0.0.2 record loader produced the same outcome in a disposable check.",
+      "repository": "vixttha/Provenistem",
+      "commit": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "path": "packages/provenistem/tools/library.py"
+    }
+  ]
+}

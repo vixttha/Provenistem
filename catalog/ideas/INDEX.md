@@ -14,3 +14,4 @@
 | IDEA-000008 | Make index rows open their records | triaged | not\_planned |
 | IDEA-000009 | Use multiple adopter catalogs for conformance | captured | not\_planned |
 | IDEA-000010 | Keep external technique catalogs separate | captured | not\_planned |
+| IDEA-000011 | Reject duplicate JSON fields in canonical records | triaged | not\_planned |

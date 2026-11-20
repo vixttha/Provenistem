@@ -19,3 +19,4 @@
 | FEAT-000013 | Public adopter conformance checks | proposed | not\_planned |
 | FEAT-000014 | Clickable generated catalog indexes | proposed | not\_planned |
 | FEAT-000015 | Optional Graphify evidence links | proposed | not\_planned |
+| FEAT-000016 | Provenistem tracks its own development | verified | implemented |

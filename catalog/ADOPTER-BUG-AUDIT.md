@@ -1,0 +1,29 @@
+# Provenistem adopter bug audit
+
+Reviewed November 20, 2026. This audit uses adopter GitHub issues, pinned catalog and tool source, public Actions receipts, and available project notes. GitHub issues remain the source for their own disposition. A passing catalog job covers the tested inputs and checks at its recorded revision.
+
+## Dogfooding milestone
+
+The standalone project started using the v0.0.2 starter for its own ideas and features at [`b7da387`](https://github.com/vixttha/Provenistem/tree/b7da387da5838216e3c7f42fa807b80523d8da5d/catalog). The first catalog had 10 ideas, 15 features, and two generated indexes. The [public Ubuntu and Windows run](https://github.com/vixttha/Provenistem/actions/runs/44696477080/attempts/1) checked those records and indexes alongside the blank starter. Future install walkthroughs still need a clean-adopter exercise. [Dogfooding record](features/records/FEAT-000016.json)
+
+## Findings
+
+| Finding | Disposition | Evidence and follow-up |
+| --- | --- | --- |
+| Conflicting duplicate JSON field names pass catalog validation. | **Open upstream defect.** Lydite reported it, and a disposable synthetic catalog reproduced it against the exact v0.0.2 validator. The populated catalog and generated index checked successfully with conflicting values in one canonical record. | [Lydite #121](https://github.com/vixttha/Lydite-Test-Vault-Template/issues/121) · [Pinned loader](https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tools/library.py#L188-L204) · [Follow-up idea](ideas/records/IDEA-000011.json) |
+| README HQ's catalog attributed technique selection and ownership to the wrong component. | **Fixed in the adopter.** The repair assigns reusable definitions to the external library, choice to the adopter, and drafting and verification to README HQ. | [Closed issue #149](https://github.com/vixttha/README-HQ/issues/149) · [Fix `e0ffb32`](https://github.com/vixttha/README-HQ/commit/e0ffb324acaf5bb30d402371228706a45ec41aed) |
+| Veraphify's earlier map lacked equivalent feature-category navigation. | **Corrected in the adopter.** The redesigned preview passed a browser audit of category pages, record pages, and directed links. The adopted map now documents both Ideas and Features views. A reusable upstream map remains proposed. | [Preview browser run](https://github.com/vixttha/Veraphify/actions/runs/44676425237) · [Pinned adopter guide](https://github.com/vixttha/Veraphify/blob/046697b9babf215b8cf1950644c5d8b8d9ba0d65/docs/USE-THE-PROJECT-MAP.md) · [Upstream map feature](features/records/FEAT-000011.json) |
+| A copied Provenistem workspace could enter a Veraphify product PR. | **Open adopter enforcement gap.** Veraphify has a permanent catalog branch. Its issue calls for a GitHub required check covering direct merges and copied workspaces. The confirmed duplicate-install incident in the shared preflight discussion involved Lydite's Vault. | [Provenistem branch issue](https://github.com/vixttha/Veraphify/issues/67) · [Shared branch contract](https://github.com/vixttha/Veraphify/issues/69) · [Related Vault incident](https://github.com/vixttha/Lydite-Test-Vault-Template/issues/114) |
+| The read-only planner's listing differs from the complete starter. | **Open upstream packaging gap.** The v0.0.2 fresh-destination plan reported 23 entries, zero writes, and omitted the package README and MIT license. A shared manifest would make the documented copy set explicit for both human and agent installs. | [Pinned planner](https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tools/adopter.py) · [Manifest feature](features/records/FEAT-000010.json) |
+| Generated indexes display plain-text record IDs. | **Open upstream navigation gap.** The self-use catalog landing page supplies clickable links to the canonical JSON. The generated indexes need their own relative links. | [Pinned index generator](https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tools/library.py#L323-L339) · [Index feature](features/records/FEAT-000014.json) |
+
+## Historical hardening
+
+The v0.0.2 test suite carries regression checks for deeply nested JSON, schema pattern and uniqueness behavior, and recognizing Governance namespace collisions while allowing an isolated child catalog. Other hardening checks cover malformed values, stale indexes, and unsafe evidence paths. The public baseline passed on both platforms. These are tested regression cases. Individual adopter incident histories for those cases were unavailable in the public evidence reviewed. [Cross-platform baseline](https://github.com/vixttha/Provenistem/actions/runs/44687183121/attempts/1) · [Pinned repair tests](https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tests/test_v002_six_team_repairs.py) · [Pinned hardening tests](https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tests/test_hardening.py)
+
+## Other adopter evidence
+
+- Version-Issues-Hub installed v0.0.2 and checked six ideas and six features on Ubuntu and Windows. The reviewed ledger and enforcement work concerns the host workflow. [Issue #1 and catalog receipts](https://github.com/vixttha/Version-Issues-Hub/issues/1)
+- BART uses Provenistem to track Graphify HQ defects. AlderVale uses it to track gameplay and project issues. The reviewed defects in those catalogs belong to the products they track. [BART catalog](https://github.com/vixttha/Blender-Agent-Refinement-Toolkit/blob/edcca9ad4107a70a48c1f9f86d9e01f0b527a32b/provenistem/README.md) · [AlderVale issue example](https://github.com/vixttha/AlderVale-Pact-of-Ten/issues/13)
+
+The audit covers the accessible reports and snapshots reviewed. Earlier private conversations and unpublished adopter notes can hold additional reports.
