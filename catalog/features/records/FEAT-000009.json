@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000009",
+  "title": "Branch-first install walkthrough for agents",
+  "summary": "Document and prove an agent-operated installation with a pinned source, explicit target branch, and a readback.",
+  "kind": "workflow",
+  "lifecycle_status": "planned",
+  "implementation_status": "planned",
+  "idea_ids": [
+    "IDEA-000001",
+    "IDEA-000003",
+    "IDEA-000004"
+  ],
+  "acceptance_criteria": [
+    "A fresh agent previews the exact paths and changes only the selected branch.",
+    "A missing, stale, or ambiguous target halts the write and returns an actionable diagnostic."
+  ],
+  "testing": {
+    "status": "planned"
+  },
+  "evidence": [],
+  "release_membership": "NOT_ASSERTED"
+}

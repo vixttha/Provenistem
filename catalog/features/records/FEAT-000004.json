@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000004",
+  "title": "Read-only adoption and upgrade preflight",
+  "summary": "The planner lists candidate file additions and differences at a selected destination and reports namespace and path problems without writing files.",
+  "kind": "workflow",
+  "lifecycle_status": "verified",
+  "implementation_status": "implemented",
+  "idea_ids": [
+    "IDEA-000001",
+    "IDEA-000004"
+  ],
+  "acceptance_criteria": [
+    "Protect existing records and indexes and report path collisions.",
+    "Perform the plan without changing source or destination."
+  ],
+  "testing": {
+    "status": "tested",
+    "outcome": "pass",
+    "refs": [
+      "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "implementation",
+      "claim": "Implements the read-only planner.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tools/adopter.py",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tools/adopter.py"
+    },
+    {
+      "kind": "test",
+      "claim": "Tests clean and populated host planning, no-clobber behavior, and path checks.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tests/test_adopter_profiles.py",
+      "receipt": "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000006",
+  "title": "Dedicated version branch snapshots",
+  "summary": "The standalone repository has a current v0.0.2 and historical v0.0.1 branch with links from main.",
+  "kind": "workflow",
+  "lifecycle_status": "verified",
+  "implementation_status": "implemented",
+  "idea_ids": [
+    "IDEA-000001"
+  ],
+  "acceptance_criteria": [
+    "Both versions have their own Git branch and can be selected from the landing README.",
+    "Each version has public Linux and Windows test evidence for its recorded revision."
+  ],
+  "testing": {
+    "status": "tested",
+    "outcome": "pass",
+    "refs": [
+      "https://github.com/vixttha/Provenistem/actions/runs/44687183121",
+      "https://github.com/vixttha/Provenistem/actions/runs/44695828534"
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "implementation",
+      "claim": "Main links both dedicated version branches.",
+      "source_sha": "55b6094c3d267e7779095ee0e39be4fba885fd80",
+      "source_path": "README.md",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/55b6094c3d267e7779095ee0e39be4fba885fd80/README.md"
+    },
+    {
+      "kind": "test",
+      "claim": "The current baseline passed Ubuntu and Windows validation.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": ".github/workflows/validate.yml",
+      "receipt": "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    },
+    {
+      "kind": "test",
+      "claim": "The historical starter passed Ubuntu and Windows validation.",
+      "source_sha": "5a689fbe3d6a6b26d77709889e28e1e02de363fc",
+      "source_path": ".github/workflows/validate.yml",
+      "receipt": "https://github.com/vixttha/Provenistem/actions/runs/44695828534"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

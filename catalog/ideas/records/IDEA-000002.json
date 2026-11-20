@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000002",
+  "title": "Design a human branch-first install",
+  "summary": "Provide a GitHub-web walkthrough from a pinned version to a dedicated branch, with a collision check and a reviewable first idea and feature.",
+  "kind": "process",
+  "origin": {
+    "created_by": "human",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "adoption",
+    "human"
+  ],
+  "benefits": [
+    "Makes installation usable without a terminal."
+  ],
+  "risks": [
+    "A file-copy guide can omit required files or leave the user on the wrong branch."
+  ],
+  "related_ideas": [
+    "IDEA-000001",
+    "IDEA-000004"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "v0.0.2 documents a manual isolated copy and a read-only planner.",
+      "repository": "vixttha/Provenistem",
+      "commit": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "path": "packages/provenistem/docs/ADOPTION.md"
+    }
+  ]
+}

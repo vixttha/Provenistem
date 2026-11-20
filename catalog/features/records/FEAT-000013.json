@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000013",
+  "title": "Public adopter conformance checks",
+  "summary": "Add repeatable checks against pinned project fixtures for fresh adoption, populated upgrades, and catalog navigation.",
+  "kind": "workflow",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000002",
+    "IDEA-000003",
+    "IDEA-000009"
+  ],
+  "acceptance_criteria": [
+    "Cover a blank catalog, a populated manual catalog, and a catalog with directed relationships.",
+    "Show preservation of existing records, resolvable references, and deterministic generated output."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "README-HQ provides a public, populated branch-first catalog fixture.",
+      "source_sha": "526f07a0775fe515960d413d2ec0681eef30e6fa",
+      "source_path": "ideas/INDEX.md",
+      "receipt": "https://github.com/vixttha/README-HQ/blob/526f07a0775fe515960d413d2ec0681eef30e6fa/ideas/INDEX.md"
+    },
+    {
+      "kind": "other",
+      "claim": "Veraphify provides a larger, related catalog fixture.",
+      "source_sha": "046697b9babf215b8cf1950644c5d8b8d9ba0d65",
+      "source_path": "ideas/INDEX.md",
+      "receipt": "https://github.com/vixttha/Veraphify/blob/046697b9babf215b8cf1950644c5d8b8d9ba0d65/ideas/INDEX.md"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

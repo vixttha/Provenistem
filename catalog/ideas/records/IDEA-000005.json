@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000005",
+  "title": "Generate a project map from canonical records",
+  "summary": "Turn a pinned idea and feature catalog into an offline map with category pages, record details, and directed idea and feature relationships. Use the working Veraphify example as an adopter reference.",
+  "kind": "feature",
+  "origin": {
+    "created_by": "joint",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "triaged",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "navigation",
+    "map"
+  ],
+  "benefits": [
+    "Gives both Ideas and Features category views.",
+    "Exposes connected and isolated records from the same source."
+  ],
+  "risks": [
+    "An adopter preview can be mistaken for a version shipped by Provenistem.",
+    "Generated output can drift from source records."
+  ],
+  "related_ideas": [
+    "IDEA-000008",
+    "IDEA-000009"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Veraphify documents a working adopter-side map.",
+      "repository": "vixttha/Veraphify",
+      "commit": "046697b9babf215b8cf1950644c5d8b8d9ba0d65",
+      "path": "docs/USE-THE-PROJECT-MAP.md"
+    }
+  ]
+}

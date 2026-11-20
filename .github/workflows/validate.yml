@@ -2,9 +2,9 @@ name: Portable package validation
 
 on:
   push:
-    branches: [main]
+    branches: [Provenistem]
   pull_request:
-    branches: [main]
+    branches: [Provenistem]
   workflow_dispatch:
 
 permissions:
@@ -34,6 +34,9 @@ jobs:
         run: python tools/library.py check --expect-empty
       - name: Run portable package tests
         run: python -m unittest discover -s tests -v
+      - name: Validate project catalog and generated indexes
+        working-directory: .
+        run: python packages/provenistem/tools/library.py check --root catalog
       - name: Verify the checkout stayed clean
         shell: bash
         run: test -z "$(git status --porcelain)"

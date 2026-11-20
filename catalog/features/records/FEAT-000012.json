@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000012",
+  "title": "Optional derived-output receipts",
+  "summary": "Allow an adopter to retain derived indexes or maps with the exact input revision, generator revision, and output digest.",
+  "kind": "workflow",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000007"
+  ],
+  "acceptance_criteria": [
+    "A read-only public workflow can regenerate from authorized public or synthetic data.",
+    "A receipt identifies the source, generator, run, and artifacts even after the artifact expires."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "Veraphify provides a successful adopter-side artifact and receipt workflow.",
+      "source_sha": "046697b9babf215b8cf1950644c5d8b8d9ba0d65",
+      "source_path": ".github/workflows/provenistem-project-map.yml",
+      "receipt": "https://github.com/vixttha/Veraphify/actions/runs/44687998633"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000009",
+  "title": "Use multiple adopter catalogs for conformance",
+  "summary": "Use public or synthetic fixtures from README-HQ-style manual catalogs, Veraphify maps, and other project layouts to test install, navigation, and upgrades against real differences.",
+  "kind": "research",
+  "origin": {
+    "created_by": "joint",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "testing",
+    "adoption"
+  ],
+  "benefits": [
+    "Finds differences that a blank starter test cannot cover."
+  ],
+  "risks": [
+    "Passing one adopter fixture can be misread as compatibility with every host.",
+    "Fixtures can contain information unsuitable for public CI."
+  ],
+  "related_ideas": [
+    "IDEA-000002",
+    "IDEA-000003",
+    "IDEA-000005"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "README-HQ uses a dedicated catalog branch for project-owned records.",
+      "repository": "vixttha/README-HQ",
+      "commit": "526f07a0775fe515960d413d2ec0681eef30e6fa",
+      "path": "README.md"
+    },
+    {
+      "relation": "context",
+      "claim": "Veraphify documents a working adopter-side map.",
+      "repository": "vixttha/Veraphify",
+      "commit": "046697b9babf215b8cf1950644c5d8b8d9ba0d65",
+      "path": "docs/USE-THE-PROJECT-MAP.md"
+    }
+  ]
+}

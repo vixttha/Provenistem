@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000004",
+  "title": "Publish an explicit portable copy manifest",
+  "summary": "Compare the full package with the planner's allowlist. Define which starter, schema, documentation, and license files belong to the supported installation and upgrade paths.",
+  "kind": "architecture",
+  "origin": {
+    "created_by": "assistant",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "triaged",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "packaging",
+    "adoption"
+  ],
+  "benefits": [
+    "Human and agent installs can use a shared expected file set."
+  ],
+  "risks": [
+    "Treating a planner listing as the complete package can omit the README and license."
+  ],
+  "related_ideas": [
+    "IDEA-000001"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "The planner selects an allowlist and omits the package README and LICENSE.",
+      "repository": "vixttha/Provenistem",
+      "commit": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "path": "packages/provenistem/tools/adopter.py"
+    }
+  ]
+}

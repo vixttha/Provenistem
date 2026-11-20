@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000010",
+  "title": "Keep external technique catalogs separate",
+  "summary": "Track investigation and adoption of a reusable technique by linking to the owning catalog. Let the adopter and its agent choose a technique, and keep the tracker focused on the project's own decisions and progress.",
+  "kind": "process",
+  "origin": {
+    "created_by": "joint",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "ownership",
+    "references"
+  ],
+  "benefits": [
+    "Allows one maintained technique catalog to serve multiple projects."
+  ],
+  "risks": [
+    "Copying the external records creates a competing source."
+  ],
+  "related_ideas": [
+    "IDEA-000006"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "README-HQ records the boundary between technique ownership and project selection.",
+      "repository": "vixttha/README-HQ",
+      "commit": "526f07a0775fe515960d413d2ec0681eef30e6fa",
+      "path": "features/records/FEAT-000012.json"
+    }
+  ]
+}

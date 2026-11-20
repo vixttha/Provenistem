@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000001",
+  "title": "Structured idea and feature catalogs",
+  "summary": "Projects can record ideas and features with stable project-local IDs, separate statuses, and links from features to originating ideas.",
+  "kind": "capability",
+  "lifecycle_status": "verified",
+  "implementation_status": "implemented",
+  "idea_ids": [
+    "IDEA-000001"
+  ],
+  "acceptance_criteria": [
+    "Represent ideas and features as schema-validated JSON in separate libraries.",
+    "Reject missing idea targets and IDs inconsistent with their file names."
+  ],
+  "testing": {
+    "status": "tested",
+    "outcome": "pass",
+    "refs": [
+      "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "implementation",
+      "claim": "Defines the Ideas record contract.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/ideas/schema/v1/idea.schema.json",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/ideas/schema/v1/idea.schema.json"
+    },
+    {
+      "kind": "implementation",
+      "claim": "Defines the Features record contract.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/features/schema/v1/feature.schema.json",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/features/schema/v1/feature.schema.json"
+    },
+    {
+      "kind": "test",
+      "claim": "Public Ubuntu and Windows jobs validate the starter, schemas, and cross-record references.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tests/test_library.py",
+      "receipt": "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

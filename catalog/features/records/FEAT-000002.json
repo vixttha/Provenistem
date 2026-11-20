@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000002",
+  "title": "Offline structural validation",
+  "summary": "The optional Python CLI checks local records and relationships using the standard library.",
+  "kind": "capability",
+  "lifecycle_status": "verified",
+  "implementation_status": "implemented",
+  "idea_ids": [
+    "IDEA-000009"
+  ],
+  "acceptance_criteria": [
+    "Validate without a hosted service or third-party Python package.",
+    "Detect malformed schemas, records, and broken references."
+  ],
+  "testing": {
+    "status": "tested",
+    "outcome": "pass",
+    "refs": [
+      "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "implementation",
+      "claim": "Implements the structural validator.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tools/library.py",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tools/library.py"
+    },
+    {
+      "kind": "test",
+      "claim": "Public Ubuntu and Windows jobs pass the portable structural regression suite.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tests/test_hardening.py",
+      "receipt": "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

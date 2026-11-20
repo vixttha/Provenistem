@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000008",
+  "title": "Make index rows open their records",
+  "summary": "Give humans and agents a direct record link from each generated Ideas or Features row while preserving stable IDs and deterministic output.",
+  "kind": "feature",
+  "origin": {
+    "created_by": "assistant",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "triaged",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "navigation",
+    "indexes"
+  ],
+  "benefits": [
+    "Cuts the extra step of locating a JSON file by ID."
+  ],
+  "risks": [
+    "Links must remain relative to the generated index and escape record text."
+  ],
+  "related_ideas": [],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "The generated indexes list record IDs, titles, and statuses in plain table cells.",
+      "repository": "vixttha/Provenistem",
+      "commit": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "path": "packages/provenistem/tools/library.py"
+    }
+  ]
+}

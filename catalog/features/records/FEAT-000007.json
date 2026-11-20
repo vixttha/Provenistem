@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000007",
+  "title": "Scoped evidence and delivery status",
+  "summary": "Features track implementation and testing independently and bind tested claims to evidence. Release membership in the portable records remains unasserted.",
+  "kind": "capability",
+  "lifecycle_status": "verified",
+  "implementation_status": "implemented",
+  "idea_ids": [
+    "IDEA-000006",
+    "IDEA-000010"
+  ],
+  "acceptance_criteria": [
+    "Reject verified feature states without source-bound passing test or audit evidence.",
+    "Preserve release authority with the adopter."
+  ],
+  "testing": {
+    "status": "tested",
+    "outcome": "pass",
+    "refs": [
+      "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "implementation",
+      "claim": "Documents separate implementation, testing, and release authority.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/docs/LIFECYCLE.md",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/docs/LIFECYCLE.md"
+    },
+    {
+      "kind": "test",
+      "claim": "The portable suite checks rejection of an unsupported verified claim.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tests/test_library.py",
+      "receipt": "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

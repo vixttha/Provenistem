@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000015",
+  "title": "Optional Graphify evidence links",
+  "summary": "Allow an adopter to link a Provenistem record to pinned Graphify implementation and test evidence without requiring Graphify to read or build the base catalog.",
+  "kind": "integration",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000005",
+    "IDEA-000006",
+    "IDEA-000010"
+  ],
+  "acceptance_criteria": [
+    "Identify the repository, revision, source file, and exact anchor of each optional link.",
+    "Visibly distinguish source assertions, Graphify output, and run receipts."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "The pinned Graphify HQ kit demonstrates exact-source anchors and separate execution evidence.",
+      "source_sha": "6af3c2025be3f51e02dca4e4502088c526aae6d1",
+      "source_path": "versions/v0.0.8/README.md",
+      "receipt": "https://github.com/vixttha/Blender-Agent-Refinement-Toolkit/blob/6af3c2025be3f51e02dca4e4502088c526aae6d1/versions/v0.0.8/README.md"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

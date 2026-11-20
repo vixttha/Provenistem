@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000006",
+  "title": "Link project records to exact code and tests",
+  "summary": "Explore optional Graphify links for implementation and test definitions and keep run receipts with the project that generated them. Model this on BART and project-owned Test Vault evidence.",
+  "kind": "research",
+  "origin": {
+    "created_by": "joint",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "graphify",
+    "evidence"
+  ],
+  "benefits": [
+    "Makes original implementation and checks easier to inspect."
+  ],
+  "risks": [
+    "A test definition proves coverage intent only. A run receipt is needed for the execution result."
+  ],
+  "related_ideas": [
+    "IDEA-000005",
+    "IDEA-000007"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Graphify HQ links source and test definitions at pinned Git revisions.",
+      "repository": "vixttha/Blender-Agent-Refinement-Toolkit",
+      "commit": "6af3c2025be3f51e02dca4e4502088c526aae6d1",
+      "path": "versions/v0.0.8/README.md"
+    },
+    {
+      "relation": "context",
+      "claim": "AlderVale keeps its executable acceptance workflow in the project repository. The pinned candidate run passed and is an example of a receipt the tracker can reference.",
+      "repository": "vixttha/AlderVale-Pact-of-Ten",
+      "commit": "b5365438c5d4dd7e012d4f3fa8d54d88780313ef",
+      "path": ".github/workflows/validate.yml"
+    }
+  ]
+}

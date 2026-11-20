@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000014",
+  "title": "Clickable generated catalog indexes",
+  "summary": "Make each generated index row link to its canonical JSON record.",
+  "kind": "capability",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000008"
+  ],
+  "acceptance_criteria": [
+    "Every generated idea and feature ID links to its expected local record path.",
+    "Links and index output stay deterministic and safe for arbitrary titles."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "Current generated tables have plain-text ID cells.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tools/library.py",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tools/library.py"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

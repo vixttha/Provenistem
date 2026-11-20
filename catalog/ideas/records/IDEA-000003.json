@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000003",
+  "title": "Design an agent branch-first install",
+  "summary": "Describe the source revision, authorized destination, file set, dry run, and readback an agent needs to install and start a catalog in a fresh session.",
+  "kind": "process",
+  "origin": {
+    "created_by": "human",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "adoption",
+    "agent"
+  ],
+  "benefits": [
+    "Makes the expected write scope explicit."
+  ],
+  "risks": [
+    "A missing ref or permission can send an edit to the wrong place."
+  ],
+  "related_ideas": [
+    "IDEA-000001",
+    "IDEA-000004"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "v0.0.2 documents a manual isolated copy and a read-only planner.",
+      "repository": "vixttha/Provenistem",
+      "commit": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "path": "packages/provenistem/docs/ADOPTION.md"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000011",
+  "title": "Reusable offline project map",
+  "summary": "Provide a reusable upstream generator that reads one catalog revision and outputs an offline map. The verified Veraphify workflow is adopter evidence.",
+  "kind": "capability",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000005",
+    "IDEA-000008",
+    "IDEA-000009"
+  ],
+  "acceptance_criteria": [
+    "Include Ideas and Features in their respective category views and render disconnected records.",
+    "Preserve directed links and produce identical output for repeated runs on the same inputs."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "The Veraphify adopter workflow generated and retained the map after a repeat build.",
+      "source_sha": "046697b9babf215b8cf1950644c5d8b8d9ba0d65",
+      "source_path": ".github/workflows/provenistem-project-map.yml",
+      "receipt": "https://github.com/vixttha/Veraphify/actions/runs/44687998633"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

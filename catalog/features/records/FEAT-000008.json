@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000008",
+  "title": "GitHub-web install walkthrough for humans",
+  "summary": "Turn the manual guidance into a verified GitHub-web path from a pinned starter to a populated project-owned branch.",
+  "kind": "workflow",
+  "lifecycle_status": "planned",
+  "implementation_status": "planned",
+  "idea_ids": [
+    "IDEA-000001",
+    "IDEA-000002",
+    "IDEA-000004"
+  ],
+  "acceptance_criteria": [
+    "A fresh user creates the dedicated branch, adds one idea and one linked feature, and can open both records.",
+    "A rehearsal proves no existing host files or records are overwritten."
+  ],
+  "testing": {
+    "status": "planned"
+  },
+  "evidence": [],
+  "release_membership": "NOT_ASSERTED"
+}

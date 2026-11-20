@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000003",
+  "title": "Reproducible Markdown indexes",
+  "summary": "The CLI generates Ideas and Features index tables and detects stale views.",
+  "kind": "capability",
+  "lifecycle_status": "verified",
+  "implementation_status": "implemented",
+  "idea_ids": [
+    "IDEA-000008"
+  ],
+  "acceptance_criteria": [
+    "A fixed catalog produces deterministic Markdown on Linux and Windows.",
+    "Check mode reports an index that differs from generated output."
+  ],
+  "testing": {
+    "status": "tested",
+    "outcome": "pass",
+    "refs": [
+      "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "implementation",
+      "claim": "Implements generation and stale-index checks.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tools/library.py",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tools/library.py"
+    },
+    {
+      "kind": "test",
+      "claim": "The public suite checks exact LF bytes after index generation.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tests/test_adopter_profiles.py",
+      "receipt": "https://github.com/vixttha/Provenistem/actions/runs/44687183121"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

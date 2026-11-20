@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000001",
+  "title": "Keep the project catalog on a dedicated branch",
+  "summary": "Use a project-owned branch for evolving idea and feature records. Record the upstream starter revision so adopters can audit and update their own copy.",
+  "kind": "architecture",
+  "origin": {
+    "created_by": "joint",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "adoption",
+    "branch-layout"
+  ],
+  "benefits": [
+    "Keeps project data with its owner.",
+    "Makes the selected starter revision recoverable."
+  ],
+  "risks": [
+    "Default-branch visitors need a clear discovery link.",
+    "Upgrades can overwrite data if the target is assumed."
+  ],
+  "related_ideas": [],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "README-HQ uses a dedicated catalog branch for project-owned records.",
+      "repository": "vixttha/README-HQ",
+      "commit": "526f07a0775fe515960d413d2ec0681eef30e6fa",
+      "path": "README.md"
+    },
+    {
+      "relation": "context",
+      "claim": "v0.0.2 documents a manual isolated copy and a read-only planner.",
+      "repository": "vixttha/Provenistem",
+      "commit": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "path": "packages/provenistem/docs/ADOPTION.md"
+    }
+  ]
+}

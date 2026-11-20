@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "FEAT-000010",
+  "title": "Complete portable install manifest",
+  "summary": "Provide a pinned file manifest that distinguishes starter files, optional tooling, and protected adopter data. Include the upstream notice in the complete supported copy.",
+  "kind": "capability",
+  "lifecycle_status": "proposed",
+  "implementation_status": "not_planned",
+  "idea_ids": [
+    "IDEA-000004"
+  ],
+  "acceptance_criteria": [
+    "A clean install can verify the expected path and file identity for every selected file.",
+    "Manually retained and adopter-owned files are accounted for when comparing the plan to the full starter."
+  ],
+  "testing": {
+    "status": "untested"
+  },
+  "evidence": [
+    {
+      "kind": "other",
+      "claim": "The existing planner's allowlist does not enumerate the package README or LICENSE.",
+      "source_sha": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "source_path": "packages/provenistem/tools/adopter.py",
+      "receipt": "https://github.com/vixttha/Provenistem/blob/e36fcd6d12633395e9b573228c0797ade9e775b0/packages/provenistem/tools/adopter.py"
+    }
+  ],
+  "release_membership": "NOT_ASSERTED"
+}

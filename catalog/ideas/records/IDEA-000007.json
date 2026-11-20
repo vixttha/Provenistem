@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "id": "IDEA-000007",
+  "title": "Pair branch-first adoption with output-only publication",
+  "summary": "Explore an opt-in workflow that keeps editable records in the adopter's catalog branch and publishes derived artifacts with an exact-source receipt. Apply it to Provenistem output and evaluate portability separately.",
+  "kind": "process",
+  "origin": {
+    "created_by": "human",
+    "source": "Provenistem standalone planning and repository audit, 2026-11-20."
+  },
+  "lifecycle_status": "captured",
+  "implementation_status": "not_planned",
+  "testing": {
+    "status": "untested"
+  },
+  "importance": "unknown",
+  "complexity": "unknown",
+  "categories": [
+    "publication",
+    "adoption"
+  ],
+  "benefits": [
+    "Keeps the browser view reproducible and the records authoritative."
+  ],
+  "risks": [
+    "Publishing from private inputs can expose project data.",
+    "An artifact can expire before its review is complete."
+  ],
+  "related_ideas": [
+    "IDEA-000001",
+    "IDEA-000005"
+  ],
+  "evidence": [
+    {
+      "relation": "context",
+      "claim": "Veraphify generates and retains derived artifacts in its adopter-owned workflow.",
+      "repository": "vixttha/Veraphify",
+      "commit": "046697b9babf215b8cf1950644c5d8b8d9ba0d65",
+      "path": ".github/workflows/provenistem-project-map.yml"
+    }
+  ]
+}
