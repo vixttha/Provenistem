@@ -2,7 +2,7 @@
 
 This branch uses the Provenistem v0.0.2 starter to track the Provenistem project itself. Project records live in this catalog. The starter package has its own empty record directories.
 
-[Adopter bug audit and dogfooding milestone](ADOPTER-BUG-AUDIT.md)
+[Adopter bug audit and dogfooding milestone](ADOPTER-BUG-AUDIT.md) · [Rollout to reusable template branches](BRANCH-TEMPLATE-ROLLOUT.md)
 
 ## Ideas
 
