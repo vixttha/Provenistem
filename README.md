@@ -8,6 +8,10 @@ This is the standalone development repository. Its portable starter begins with
 empty catalogs and synthetic examples. Each adopter keeps its own records,
 evidence, and approvals in its repository.
 
+## Project catalog
+
+Open the [Ideas & Features catalog](https://github.com/vixttha/Provenistem/blob/Provenistem/catalog/README.md) for the current project inventory, proposals, and evidence.
+
 ## Versions
 
 - [v0.0.2](https://github.com/vixttha/Provenistem/tree/v0.0.2) — current standalone baseline.
