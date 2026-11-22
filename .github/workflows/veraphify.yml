@@ -1,8 +1,8 @@
-name: Provenistem Graphify archives
+name: Provenistem Veraphify audit
 
 on:
   push:
-    branches: [veraphify]
+    branches: [audit/veraphify-adopter-census]
   workflow_dispatch:
 
 permissions:
@@ -40,6 +40,16 @@ jobs:
         run: python provenistem/tools/library.py check --expect-empty
       - name: Build, replay, and verify both version archives
         run: bash scripts/build-archives.sh "$RUNNER_TEMP/graphify-kit/versions/v0.0.8" "$RUNNER_TEMP/provenistem-evidence"
+      - name: Resolve audited code locations from the Veraphify archive
+        run: |
+          evidence="$RUNNER_TEMP/provenistem-evidence"
+          source=$(jq -er .source "$evidence/v0.0.2/import.json")
+          digest=$(jq -er .archive_sha256 "$evidence/v0.0.2/import.json")
+          for feature in record-validation generated-indexes adoption-preflight; do
+            node veraphifiy.mjs lookup --archive "$evidence/archive" --project vixttha/Provenistem \
+              --version v0.0.2 --source "$source" --archive-sha256 "$digest" --feature "feature:$feature" \
+              | jq -c '{version,source,feature,citations}'
+          done
       - name: Verify checked-in maps when available
         run: |
           if [[ -d graphs ]]; then
@@ -56,3 +66,31 @@ jobs:
           path: ${{ runner.temp }}/provenistem-evidence
           if-no-files-found: error
           retention-days: 30
+
+  behavior:
+    if: github.event.repository.private == false
+    name: Behavior probes (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: e36fcd6d12633395e9b573228c0797ade9e775b0
+          path: pinned-starter
+          persist-credentials: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.12'
+      - name: Run Provenistem v0.0.2 baseline tests
+        run: python -m unittest discover -s pinned-starter/packages/provenistem/tests -q
+      - name: Check positive controls and confirm known behavior
+        run: python audit/probe_v002.py pinned-starter
