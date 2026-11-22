@@ -1,0 +1,213 @@
+{
+  "repository": "vixttha/Provenistem",
+  "source_commit": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+  "title": "Provenistem v0.0.2 feature evidence",
+  "source_files": [
+    "packages/provenistem/README.md",
+    "packages/provenistem/docs/ADOPTION.md",
+    "packages/provenistem/docs/LIFECYCLE.md",
+    "packages/provenistem/tests/test_adopter_profiles.py",
+    "packages/provenistem/tests/test_library.py",
+    "packages/provenistem/tests/test_v002_six_team_repairs.py",
+    "packages/provenistem/tools/adopter.py",
+    "packages/provenistem/tools/library.py"
+  ],
+  "features": [
+    {
+      "id": "record-validation",
+      "label": "Validate canonical idea and feature records",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def read_records(root, section, schema):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def read_records(root, section, schema):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_examples_pass_schema(self):"
+        }
+      ]
+    },
+    {
+      "id": "linked-records",
+      "label": "Check links between features and ideas",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/LIFECYCLE.md",
+          "anchor": "## Canonical ownership"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if target not in ideas:"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if target not in ideas:"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_missing_idea_link_is_rejected(self):"
+        }
+      ]
+    },
+    {
+      "id": "generated-indexes",
+      "label": "Generate and check Markdown indexes",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def index(kind, rows):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def index(kind, rows):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_round_trip_indexes(self):"
+        }
+      ]
+    },
+    {
+      "id": "evidence-status",
+      "label": "Require evidence for verified feature status",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/LIFECYCLE.md",
+          "anchor": "## Delivery and testing"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if row.get(\"lifecycle_status\") == \"verified\":"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if row.get(\"lifecycle_status\") == \"verified\":"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_false_verified_feature_rejected(self):"
+        }
+      ]
+    },
+    {
+      "id": "adoption-preflight",
+      "label": "Preview an adoption or upgrade without writing",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Optional validation"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def plan(source, destination):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def plan(source, destination):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_no_clobber_plan_on_existing_host(self):"
+        }
+      ]
+    },
+    {
+      "id": "bounded-validation",
+      "label": "Reject unsupported or oversized validation inputs",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def within_depth(value, limit=MAX_JSON_DEPTH):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def within_depth(value, limit=MAX_JSON_DEPTH):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_red_parseable_nested_record_rejected_at_depth_limit(self):"
+        }
+      ]
+    },
+    {
+      "id": "populated-adopter",
+      "label": "Validate a populated adopter independently of the starter",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Host-local records"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def validate(root=ROOT):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def validate(root=ROOT):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_synthetic_populated_host_not_bound_to_default_counts(self):"
+        }
+      ]
+    }
+  ]
+}

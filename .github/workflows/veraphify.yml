@@ -1,0 +1,58 @@
+name: Provenistem Graphify archives
+
+on:
+  push:
+    branches: [veraphify]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  archive:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        with:
+          node-version: '24.22.3'
+          package-manager-cache: false
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.12'
+      - name: Install the pinned Graphify producer
+        run: |
+          kit="$RUNNER_TEMP/graphify-kit"
+          producer=6af3c2025be3f51e02dca4e4502088c526aae6d1
+          git init -q "$kit"
+          git -C "$kit" fetch -q --no-tags --depth=1 https://github.com/vixttha/Blender-Agent-Refinement-Toolkit.git "$producer"
+          git -C "$kit" checkout -q --detach "$producer"
+          test "$(git -C "$kit" rev-parse HEAD)" = "$producer"
+          python -m pip install --require-hashes --no-cache-dir --only-binary=:all: --no-deps -r "$kit/versions/v0.0.8/requirements.txt"
+          python -m pip check
+      - name: Check the branch-local Provenistem starter
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python provenistem/tools/library.py check --expect-empty
+      - name: Build, replay, and verify both version archives
+        run: bash scripts/build-archives.sh "$RUNNER_TEMP/graphify-kit/versions/v0.0.8" "$RUNNER_TEMP/provenistem-evidence"
+      - name: Verify checked-in maps when available
+        run: |
+          if [[ -d graphs ]]; then
+            for version in v0.0.1 v0.0.2; do
+              for file in graph.json receipt.json; do
+                cmp "graphs/$version/$file" "$RUNNER_TEMP/provenistem-evidence/$version/$file"
+              done
+            done
+          fi
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: provenistem-veraphify-archives
+          path: ${{ runner.temp }}/provenistem-evidence
+          if-no-files-found: error
+          retention-days: 30

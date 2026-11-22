@@ -1,0 +1,125 @@
+{
+  "repository": "vixttha/Provenistem",
+  "source_commit": "5a689fbe3d6a6b26d77709889e28e1e02de363fc",
+  "title": "Provenistem v0.0.1 feature evidence",
+  "source_files": [
+    "packages/provenistem/README.md",
+    "packages/provenistem/docs/LIFECYCLE.md",
+    "packages/provenistem/tests/test_library.py",
+    "packages/provenistem/tools/library.py"
+  ],
+  "features": [
+    {
+      "id": "record-validation",
+      "label": "Validate canonical idea and feature records",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def read_records(root, section, schema):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def read_records(root, section, schema):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_examples_pass_schema(self):"
+        }
+      ]
+    },
+    {
+      "id": "linked-records",
+      "label": "Check links between features and ideas",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/LIFECYCLE.md",
+          "anchor": "## Canonical ownership"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if target not in ideas:"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if target not in ideas:"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_missing_idea_link_is_rejected(self):"
+        }
+      ]
+    },
+    {
+      "id": "generated-indexes",
+      "label": "Generate and check Markdown indexes",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def index(kind, rows):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def index(kind, rows):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_round_trip_indexes(self):"
+        }
+      ]
+    },
+    {
+      "id": "evidence-status",
+      "label": "Require evidence for verified feature status",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/LIFECYCLE.md",
+          "anchor": "## Delivery and testing"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if row.get(\"lifecycle_status\") == \"verified\":"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if row.get(\"lifecycle_status\") == \"verified\":"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_false_verified_feature_rejected(self):"
+        }
+      ]
+    }
+  ]
+}
