@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "template_version": "v0.0.8",
+  "repository": "vixttha/Provenistem",
+  "source_commit": "5a689fbe3d6a6b26d77709889e28e1e02de363fc",
+  "pull_request": null,
+  "scope": "feature-evidence",
+  "graphify_version": "0.9.109",
+  "graph_sha256": "2f6f9bee87bbddb33c3c317f7539b4fb2a40979da9d31a08c0d64d68f8b1526d",
+  "nodes": 24,
+  "edges": 39,
+  "feature_links": {
+    "feature:evidence-status": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:generated-indexes": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:linked-records": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:record-validation": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    }
+  },
+  "source_files": [
+    "packages/provenistem/README.md",
+    "packages/provenistem/docs/LIFECYCLE.md",
+    "packages/provenistem/tests/test_library.py",
+    "packages/provenistem/tools/library.py"
+  ],
+  "source_sha256": {
+    "packages/provenistem/README.md": "d64621562c89d21648963cc7f45846e156d036a8384069eaba9bbf331620a96d",
+    "packages/provenistem/docs/LIFECYCLE.md": "bdf4b0fd4c27dfb97b6c5bf2c7cdeb3c15693a1e8c19bc55805d42ffefa5ab10",
+    "packages/provenistem/tests/test_library.py": "3c04f731084d5bb2603c58506101bf0da9c57d7e74b1c711cee4716449207a0e",
+    "packages/provenistem/tools/library.py": "06623eae05e6e78e619f06c54cc4349d71e26c0d221faded20b177c7c6c941cd"
+  },
+  "mcp_verified": true
+}

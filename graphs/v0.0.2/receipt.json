@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "template_version": "v0.0.8",
+  "repository": "vixttha/Provenistem",
+  "source_commit": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+  "pull_request": null,
+  "scope": "feature-evidence",
+  "graphify_version": "0.9.109",
+  "graph_sha256": "e37b1cbdbedb1ce97e9b7eb468adfb78ab4fd813f6b8530a18e7f8d4adc2996a",
+  "nodes": 42,
+  "edges": 69,
+  "feature_links": {
+    "feature:adoption-preflight": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:bounded-validation": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:evidence-status": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:generated-indexes": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:linked-records": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:populated-adopter": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:record-validation": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    }
+  },
+  "source_files": [
+    "packages/provenistem/README.md",
+    "packages/provenistem/docs/ADOPTION.md",
+    "packages/provenistem/docs/LIFECYCLE.md",
+    "packages/provenistem/tests/test_adopter_profiles.py",
+    "packages/provenistem/tests/test_library.py",
+    "packages/provenistem/tests/test_v002_six_team_repairs.py",
+    "packages/provenistem/tools/adopter.py",
+    "packages/provenistem/tools/library.py"
+  ],
+  "source_sha256": {
+    "packages/provenistem/README.md": "b3066f16ed56a4c9633f3e003a1b16ccc09efc862c34181b2fe05d8a50c4662c",
+    "packages/provenistem/docs/ADOPTION.md": "71e2b4b5bb4d91eda03f3f800fc363909982ed34b8fb9ce2784a27e9541a0b27",
+    "packages/provenistem/docs/LIFECYCLE.md": "f4aaf437a2c9a1cd5f6fa7411652dbe325ec8743274d026f3ce9dc053a10cd13",
+    "packages/provenistem/tests/test_adopter_profiles.py": "10d90ad2f7db4a7bbf87a56dc3aa030c9e355804bb8ed61050b646af8f57e873",
+    "packages/provenistem/tests/test_library.py": "121be931d88726c73ce20d3412db66054ee3013cc2ece3f8768dd8d2401b1e9a",
+    "packages/provenistem/tests/test_v002_six_team_repairs.py": "3e95c218676c6233e8892bda4245396be65aab00e47ff04bd65d1d132dcf53c7",
+    "packages/provenistem/tools/adopter.py": "ae019379f8403e4ca5b006dcab0082663ed2a396206c6dca74ca4048ca0a4f58",
+    "packages/provenistem/tools/library.py": "ad17388334be608902822d39d8d89193a73643c6f45226165ac5947ffef34bd5"
+  },
+  "mcp_verified": true
+}
