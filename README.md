@@ -48,3 +48,7 @@ humans and agents, and a read-only project map generated from a pinned catalog.
 Each walkthrough should show the selected source revision, the destination and
 its collision checks, and how the adopter reviews the result. Generated maps and
 other outputs follow the adopter's own publication policy.
+
+## Engineering ecosystem
+
+[Owner-approved six architectural laws](ENGINEERING-LAWS.md) apply to this product. Standalone operation and owner authority remain unchanged. The product has no mandatory coordination-tool dependency.
