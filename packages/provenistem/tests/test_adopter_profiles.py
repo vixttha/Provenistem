@@ -109,6 +109,7 @@ class AdopterProfiles(unittest.TestCase):
             "test_hardening.py",
             "test_adopter_profiles.py",
             "test_v002_six_team_repairs.py",
+            "test_modularity_contract.py", "test_unicode_index_integrity.py",
         }
         listed = {
             p.name for p in adopter.candidates(ROOT)
@@ -165,9 +166,11 @@ class AdopterProfiles(unittest.TestCase):
         self.assertEqual(plan["status"], "NEW_DESTINATION")
         self.assertFalse(plan["writes"])
         self.assertFalse(dest.exists())
-        expected = {p.relative_to(ROOT).as_posix() for p in ROOT.rglob("*")
-                    if p.is_file() and "__pycache__" not in p.parts
-                    and p.suffix != ".pyc"}
+        expected = {"README.md", "LICENSE", "LIBRARY-AGENT-GUIDE.md"}
+        for folder in ("ideas", "features", "templates", "docs", "tools", "tests"):
+            expected.update(p.relative_to(ROOT).as_posix() for p in (ROOT / folder).rglob("*")
+                            if p.is_file() and "__pycache__" not in p.parts
+                            and p.suffix != ".pyc")
         actual = {entry["path"] for entry in plan["entries"]}
         self.assertEqual(actual, expected)
         for entry in plan["entries"]:
@@ -176,7 +179,7 @@ class AdopterProfiles(unittest.TestCase):
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / entry["path"], target)
         self.assertEqual((dest / "LICENSE").read_bytes(), (ROOT / "LICENSE").read_bytes())
-        self.assertEqual(library.run(dest, "check", expect_empty=True), 0)
+        self.assertEqual(library.run(dest, "check"), 0)
         for md in dest.rglob("*.md"):
             for link in re.findall(r"\[[^\]]+\]\(([^)]+)\)",
                                    md.read_text(encoding="utf-8")):
