@@ -48,6 +48,42 @@
           "anchor": "def test_no_authority_files_in_standalone_root(self):"
         }
       ]
+    },
+    {
+      "id": "adoption-destination-ancestor",
+      "label": "Reject blocked new adoption destinations before file actions",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "A new destination beneath an existing non-directory ancestor is blocked before any file actions are returned; the diagnostic identifies the ancestor."
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "for parent in reversed(destination.parents):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def plan(source, destination):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_new_destination_below_file_is_blocked(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_new_destination_below_missing_directories_is_available(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_no_clobber_plan_on_existing_host(self):"
+        }
+      ]
     }
   ]
 }
