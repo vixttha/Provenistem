@@ -55,7 +55,7 @@
       "documented_in": [
         {
           "path": "packages/provenistem/docs/ADOPTION.md",
-          "anchor": "A new destination beneath an existing non-directory ancestor is blocked before any file actions are returned; the diagnostic identifies the ancestor."
+          "anchor": "### Blocked destination ancestors"
         }
       ],
       "changed_in": [
