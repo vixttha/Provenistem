@@ -192,5 +192,114 @@ class UnicodeIndexIntegrity(unittest.TestCase):
         self.assertEqual((ideas, features), ({}, {}))
         self.assertEqual(self.index_bytes(), self.before)
 
+    def prepare_changed_indexes(self):
+        for section in ("ideas", "features"):
+            self.write_record(section, dict(self.records[section],
+                                           title="Updated " + section))
+
+    def test_directory_at_either_index_preserves_other(self):
+        self.prepare_changed_indexes()
+        for section, other in (("ideas", "features"), ("features", "ideas")):
+            with self.subTest(section=section):
+                path = self.host / section / "INDEX.md"
+                original = path.read_bytes()
+                other_path = self.host / other / "INDEX.md"
+                other_before = other_path.read_bytes()
+                path.unlink()
+                path.mkdir()
+                sentinel = path / "keep.txt"
+                sentinel.write_bytes(b"KEEP")
+                try:
+                    output = io.StringIO()
+                    with contextlib.redirect_stdout(output):
+                        self.assertEqual(library.run(self.host, "build"), 1)
+                    self.assertIn(str(path), output.getvalue())
+                    self.assertEqual(other_path.read_bytes(), other_before)
+                    self.assertEqual(sentinel.read_bytes(), b"KEEP")
+                finally:
+                    sentinel.unlink()
+                    path.rmdir()
+                    path.write_bytes(original)
+                    other_path.write_bytes(other_before)
+
+    def test_second_index_replace_failure_rolls_back_first(self):
+        self.prepare_changed_indexes()
+        target = self.host / "features/INDEX.md"
+        original = Path.replace
+        def fail_second(source, destination):
+            if Path(destination) == target:
+                raise PermissionError("injected second replacement failure")
+            return original(source, destination)
+        output = io.StringIO()
+        with patch.object(Path, "replace", fail_second):
+            with contextlib.redirect_stdout(output):
+                self.assertEqual(library.run(self.host, "build"), 1)
+        self.assertIn(str(target), output.getvalue())
+        self.assertEqual(self.index_bytes(), self.before)
+        for section in ("ideas", "features"):
+            self.assertEqual({p.name for p in (self.host / section).iterdir()},
+                             {p.name for p in (ROOT / section).iterdir()})
+        self.assertEqual(library.run(self.host, "build"), 0)
+        self.assertNotEqual(self.index_bytes(), self.before)
+        self.assertEqual(library.run(self.host, "check"), 0)
+        expected = self.index_bytes()
+        self.assertEqual(library.run(self.host, "build"), 0)
+        self.assertEqual(self.index_bytes(), expected)
+
+    def test_missing_first_index_is_not_created_on_second_failure(self):
+        self.prepare_changed_indexes()
+        first = self.host / "ideas/INDEX.md"
+        second = self.host / "features/INDEX.md"
+        first.unlink()
+        original = Path.replace
+        def fail_second(source, destination):
+            if Path(destination) == second:
+                raise PermissionError("injected second replacement failure")
+            return original(source, destination)
+        with patch.object(Path, "replace", fail_second):
+            self.assertEqual(library.run(self.host, "build"), 1)
+        self.assertFalse(first.exists())
+        self.assertEqual(second.read_bytes(), self.before[1])
+        self.assertEqual(library.run(self.host, "build"), 0)
+        self.assertEqual(library.run(self.host, "check"), 0)
+
+    def test_second_stage_failure_preserves_both_indexes(self):
+        self.prepare_changed_indexes()
+        original = Path.write_bytes
+        def fail_stage(path, data):
+            if path.name == "new" and path.parent.parent == self.host / "features":
+                raise OSError("injected staging failure")
+            return original(path, data)
+        output = io.StringIO()
+        with patch.object(Path, "write_bytes", fail_stage):
+            with contextlib.redirect_stdout(output):
+                self.assertEqual(library.run(self.host, "build"), 1)
+        self.assertIn(str(self.host / "features/INDEX.md"), output.getvalue())
+        self.assertEqual(self.index_bytes(), self.before)
+        self.assertFalse(list(self.host.glob("*/.provenistem-index-*")))
+
+    def test_rollback_failure_retains_previous_bytes(self):
+        self.prepare_changed_indexes()
+        first = self.host / "ideas/INDEX.md"
+        second = self.host / "features/INDEX.md"
+        original = Path.replace
+        def fail_replace(source, destination):
+            if Path(destination) == second or source.name == "previous":
+                raise PermissionError("injected replacement failure")
+            return original(source, destination)
+        output = io.StringIO()
+        with patch.object(Path, "replace", fail_replace):
+            with contextlib.redirect_stdout(output):
+                self.assertEqual(library.run(self.host, "build"), 1)
+        self.assertIn("rollback failed", output.getvalue())
+        backups = list(first.parent.glob(".provenistem-index-*/previous"))
+        self.assertEqual(len(backups), 1)
+        self.assertEqual(backups[0].read_bytes(), self.before[0])
+        self.assertIn(str(backups[0]), output.getvalue())
+        self.assertEqual(second.read_bytes(), self.before[1])
+        backups[0].replace(first)
+        shutil.rmtree(backups[0].parent)
+        self.assertEqual(self.index_bytes(), self.before)
+
 if __name__ == "__main__":
     unittest.main()

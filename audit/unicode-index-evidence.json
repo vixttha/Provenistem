@@ -164,6 +164,50 @@
           "anchor": "def test_duplicate_schema_keys_are_rejected(self):"
         }
       ]
+    },
+    {
+      "id": "index-output-integrity",
+      "label": "Preflight and recover derived index updates on ordinary I/O failures",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "### Recoverable index output failures"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "problems.extend(replace_indexes(root, encoded))"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def replace_indexes(root, encoded):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_directory_at_either_index_preserves_other(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_second_index_replace_failure_rolls_back_first(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_missing_first_index_is_not_created_on_second_failure(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_second_stage_failure_preserves_both_indexes(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_rollback_failure_retains_previous_bytes(self):"
+        }
+      ]
     }
   ]
 }

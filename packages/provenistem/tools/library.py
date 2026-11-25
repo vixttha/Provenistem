@@ -6,6 +6,9 @@ Not a JSON-Schema compliance engine; does not authenticate evidence or approve r
 import argparse
 import json
 import re
+import shutil
+import stat
+import tempfile
 from decimal import Decimal, InvalidOperation
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
@@ -398,6 +401,65 @@ def index(kind, rows):
     return "\n".join(output) + "\n"
 
 
+def replace_indexes(root, encoded):
+    """Stage both views, then replace individually with best-effort rollback.
+
+    Requires an isolated, non-concurrently modified catalog. Not a multi-file
+    atomic transaction or crash/power-loss recovery protocol.
+    """
+    plans = []
+    staged = []
+    committed = []
+    retained = set()
+    problems = []
+    try:
+        for kind, content in encoded.items():
+            path = root / kind / "INDEX.md"
+            try:
+                mode = path.lstat().st_mode
+            except FileNotFoundError:
+                mode = None
+            if mode is not None and not stat.S_ISREG(mode):
+                raise OSError("index output is not a regular file")
+            if mode is not None and not mode & stat.S_IWUSR:
+                raise PermissionError("index output is read-only")
+            plans.append((path, content, mode))
+        for path, content, mode in plans:
+            directory = Path(tempfile.mkdtemp(prefix=".provenistem-index-", dir=path.parent))
+            staged.append((path, directory, mode))
+            if mode is not None:
+                shutil.copy2(path, directory / "previous")
+            new = directory / "new"
+            new.write_bytes(content)
+            if mode is not None:
+                new.chmod(stat.S_IMODE(mode))
+        for path, directory, mode in staged:
+            (directory / "new").replace(path)
+            committed.append((path, directory, mode))
+    except OSError as exc:
+        problems.append(f"{path}: index update failed: {exc}")
+        for path, directory, mode in reversed(committed):
+            try:
+                if mode is None:
+                    path.unlink()
+                else:
+                    (directory / "previous").replace(path)
+            except OSError as rollback_error:
+                retained.add(directory)
+                prior = ("original index absent" if mode is None
+                         else f"previous bytes at {directory / 'previous'}")
+                problems.append(f"{path}: rollback failed: {rollback_error}; {prior}; "
+                                f"recovery directory retained: {directory}")
+    finally:
+        for path, directory, _ in staged:
+            if directory not in retained:
+                try:
+                    shutil.rmtree(directory)
+                except OSError as exc:
+                    problems.append(f"{path}: staging cleanup failed: {exc}; retained {directory}")
+    return problems
+
+
 def run(root, action):
     problems, ideas, feats = validate(root)
     if problems:
@@ -415,8 +477,7 @@ def run(root, action):
             except UnicodeEncodeError:
                 print(f"FAIL: {kind}/INDEX.md: invalid Unicode (unpaired surrogate)")
                 return 1
-        for kind, content in encoded.items():
-            (root / kind / "INDEX.md").write_bytes(content)
+        problems.extend(replace_indexes(root, encoded))
     else:
         for kind, expected in views.items():
             path = root / kind / "INDEX.md"
