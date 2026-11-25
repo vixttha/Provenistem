@@ -52,6 +52,7 @@ class UnicodeIndexIntegrity(unittest.TestCase):
                 self.assertEqual(result, 1)
                 self.assertIn("invalid Unicode", output.getvalue())
                 self.assertIn(path.name, output.getvalue())
+                output.getvalue().encode("utf-8", errors="strict")
                 self.assertEqual(self.index_bytes(), self.before)
                 self.assertEqual(path.read_bytes(), record_before)
 
@@ -65,7 +66,7 @@ class UnicodeIndexIntegrity(unittest.TestCase):
 
     def test_nested_values_and_keys_are_rejected_safely(self):
         section = "ideas"
-        for row in (dict(self.records[section], origin={"source": "x" + chr(0xD800)}),
+        for row in (dict(self.records[section], origin=dict(self.records[section]["origin"], source="x" + chr(0xD800))),
                     dict(self.records[section], **{"bad" + chr(0xDFFF): "value"})):
             self.assert_rejected_unchanged(section, row)
         self.write_record(section, self.records[section])
