@@ -1,0 +1,53 @@
+{
+  "title": "Provenistem self-contained adoption copy",
+  "features": [
+    {
+      "id": "adoption-copy-integrity",
+      "label": "Self-contained basic and optional adoption profiles",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        },
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Zero-install copy"
+        },
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Optional validation"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "PACKAGE_TOPLEVEL = (\"README.md\", \"LICENSE\", \"LIBRARY-AGENT-GUIDE.md\")"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def candidates(source):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_documented_basic_copy_has_all_relative_links(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_planned_copy_contains_complete_portable_package(self):"
+        },
+        {
+          "path": "audit/verify_adoption_copy.py",
+          "anchor": "def verify_copied_installation(source):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_modularity_contract.py",
+          "anchor": "def test_no_authority_files_in_standalone_root(self):"
+        }
+      ]
+    }
+  ]
+}
