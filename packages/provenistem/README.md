@@ -24,6 +24,10 @@ A human can use the files directly in GitHub. An LLM can read and suggest edits 
 
 Run optional checks when Python happens to be available: `python tools/library.py check`, `python tools/library.py build`, `python -m unittest discover -s tests -v`. Copy `tools/` and `tests/` if those helpers are wanted. **v0.0.2 adds count-neutral populated-adopter tests, a bounded validator, local `maxLength` schema support and read-only `python tools/adopter.py <host-library-root>` no-clobber planning.** Starter publishers can also use `python tools/library.py check --expect-empty`; do **not** apply that flag to populated adopters.
 
+### Exact numeric identity (forward repair)
+
+The optional validator preserves exact decimal values during JSON parsing and `uniqueItems` comparisons, without dependence on the current decimal arithmetic context. Equal numeric spellings (such as `1` and `1.0`) compare equal, and booleans remain distinct. Nonfinite and excessive decimal exponents are rejected. The existing v1 schema types remain object, array, string and integer; no new `number` schema type or relaxed integer validation is introduced. This forward repair candidate does not modify the historical release.
+
 No GitHub Actions workflow, runner configuration, release authorization, or development test-arm file is included in this portable package. Any CI is optional and host-owned. Prior source/host test receipts do not imply independent external security certification.
 
 ## One-way Governance isolation
