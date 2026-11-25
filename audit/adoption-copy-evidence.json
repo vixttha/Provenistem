@@ -12,6 +12,10 @@
         {
           "path": "packages/provenistem/docs/ADOPTION.md",
           "anchor": "## Zero-install copy"
+        },
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Optional validation"
         }
       ],
       "changed_in": [
@@ -34,6 +38,14 @@
         {
           "path": "packages/provenistem/tests/test_adopter_profiles.py",
           "anchor": "def test_planned_copy_contains_complete_portable_package(self):"
+        },
+        {
+          "path": "audit/verify_adoption_copy.py",
+          "anchor": "def verify_copied_installation(source):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_modularity_contract.py",
+          "anchor": "def test_no_authority_files_in_standalone_root(self):"
         }
       ]
     }

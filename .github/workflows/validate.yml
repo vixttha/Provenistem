@@ -34,6 +34,8 @@ jobs:
         run: python tools/library.py check --expect-empty
       - name: Run portable package tests
         run: python -m unittest discover -s tests -v
+      - name: Verify copied starter and populated adopter
+        run: python ../../audit/verify_adoption_copy.py
       - name: Verify the checkout stayed clean
         shell: bash
         run: test -z "$(git status --porcelain)"
