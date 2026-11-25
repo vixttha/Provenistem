@@ -16,6 +16,14 @@
 5. Do not update official roadmap, product releases, permission settings, branch protections, or merge/ship anything as a side effect of editing this library.
 6. Update generated indexes to match the canonical records, or clearly mark them stale. A plain GitHub UI edit is sufficient; optional scripts are not mandatory.
 
+## Reconcile an evolving discussion before allocating IDs
+
+Resolve the existing library revision and inspect canonical records, even when an index is stale. Missing access is UNVERIFIED, not absence. Separate ideas/features from brand positioning, host policies and acceptance; route the latter to their existing authoritative records. With optional peers absent, keep only relevant idea/feature context and unresolved questions here. Never create a new permanent workspace simply to record discussion.
+
+For each in-scope item, compare title, summary, related IDs, prior decision and evidence. Reuse the existing ID when it is the same item; link genuinely distinct related items. Flag contradictory or superseded directions for owner review, preserve original decisions in Git history and explicit source references, and only change decision-bearing status with explicit owner authorization. Never interpret an adopted idea as authority to implement, or tests as release approval. An unresolved match is not a reason to overwrite or allocate a duplicate.
+
+Optional read-only helper: `python tools/library.py reconcile --title "Example idea"`. It reports literal title/summary matches and directly related records, their lifecycle/implementation/testing states, and index freshness; it does not decide semantic equivalence, conflicts, authority or acceptance. Inspect the canonical records for context even if no match is returned. It never creates records, rebuilds indexes, writes another branch, or requires a peer tool. Use normal authorized edits and existing schema/index checks after reconciliation; retain previous evidence and avoid double-writer catalogs.
+
 ## Useful summaries to give a person
 - What ideas have been captured, which have a documented decision, and why?
 - Which features are only proposed, under implementation, or supported by verification evidence?
