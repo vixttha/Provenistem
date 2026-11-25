@@ -12,13 +12,13 @@ def verify_copied_installation(source):
     sys.path.insert(0, str(source / "tools"))
     import adopter
 
-    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", PYTHONIOENCODING="utf-8")
     env.pop("PYTHONPATH", None)
 
     def run(root, *args, expected=0):
         result = subprocess.run(
             [sys.executable, *args], cwd=root, env=env,
-            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            capture_output=True, text=True, encoding="utf-8",
             timeout=120, check=False,
         )
         print(result.stdout, end="")
@@ -84,4 +84,5 @@ def verify_copied_installation(source):
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")
     verify_copied_installation(Path.cwd())
