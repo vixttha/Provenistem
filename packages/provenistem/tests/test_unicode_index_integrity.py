@@ -96,6 +96,28 @@ class UnicodeIndexIntegrity(unittest.TestCase):
         self.assertIn("features/INDEX.md", output.getvalue())
         self.assertEqual(self.index_bytes(), self.before)
 
+    def test_combined_exact_decimal_and_unicode_record_loader(self):
+        path = self.host / "ideas/records/IDEA-000001.json"
+        spec = {"type": "object", "properties": {
+            "id": {"type": "string"}, "title": {"type": "string"},
+            "values": {"type": "array", "uniqueItems": True}}}
+        for title, valid in (('"ok\\ud800"', False),
+                             ('"Caf\\u00e9 \\ud83d\\ude80"', True)):
+            with self.subTest(valid=valid):
+                path.write_text('{"id":"IDEA-000001","title":' + title
+                                + ',"values":[1.0000000000000001,1.0]}',
+                                encoding="utf-8")
+                issues, rows = library.read_records(self.host, "ideas", spec)
+                if valid:
+                    self.assertEqual(issues, [])
+                    values = rows["IDEA-000001"]["values"]
+                    self.assertNotEqual(library.json_identity(values[0]),
+                                        library.json_identity(values[1]))
+                else:
+                    self.assertIn("invalid Unicode", " ".join(issues))
+                    self.assertEqual(rows, {})
+                self.assertEqual(self.index_bytes(), self.before)
+
 
 if __name__ == "__main__":
     unittest.main()

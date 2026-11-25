@@ -1,5 +1,5 @@
 {
-  "title": "Provenistem Unicode index integrity #11",
+  "title": "Provenistem Unicode and decimal reconciliation preview",
   "features": [
     {
       "id": "unicode-index-integrity",
@@ -34,6 +34,10 @@
         {
           "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
           "anchor": "def test_both_views_encoded_before_any_index_is_opened(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_combined_exact_decimal_and_unicode_record_loader(self):"
         }
       ],
       "documented_in": [
@@ -50,6 +54,62 @@
         {
           "path": "packages/provenistem/tools/library.py",
           "anchor": "encoded[kind] = content.encode(\"utf-8\", errors=\"strict\")"
+        }
+      ]
+    },
+    {
+      "id": "decimal-identity",
+      "label": "Exact bounded JSON decimal identity",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "### Exact numeric identity (forward repair)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "MAX_DECIMAL_EXPONENT = MAX_RECORD_BYTES"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def parse_decimal(literal):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def parse_json(text):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def json_identity(value):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_distinct_literals_through_record_loader(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_equivalent_literals_through_record_loader(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_bad_or_extreme_literals_are_normal_failures(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_keeps_existing_integer_contract(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_identity_independent_of_arithmetic_context(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_schema_loader_rejects_nonfinite_or_extreme_literals(self):"
         }
       ]
     }
