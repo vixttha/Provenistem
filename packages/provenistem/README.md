@@ -30,6 +30,10 @@ The optional validator preserves exact decimal values during JSON parsing and `u
 
 No GitHub Actions workflow, runner configuration, release authorization, or development test-arm file is included in this portable package. Any CI is optional and host-owned. Prior source/host test receipts do not imply independent external security certification.
 
+### Recoverable index output failures
+
+The optional builder preflights both output paths, stages new bytes and prior copies in their respective directories, then replaces each index. A recoverable replacement failure triggers rollback of earlier replacements; if rollback itself fails, the diagnostic names the retained recovery directory and previous copy (or reports that the index was originally absent). Stop and reconcile manually in that case. No canonical records are changed. Run builds only in an isolated catalog without concurrent writers or readers requiring a consistent two-file snapshot. Individual replacements are not a multi-file atomic transaction, and a crash, power loss or failed rollback can still require manual recovery.
+
 ## One-way Governance isolation
 
 [The interoperability boundary](docs/ONE-WAY-BOUNDARY.md) allows Governance-Branch to *offer* Provenistem as an opt-in, host-owned module, but forbids mandatory dependencies, upstream mutations, silent installation, schema conversion and overwriting canonical `ideas/` or `features/` paths. The adapter is a future design, not a shipped integration.
