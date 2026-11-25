@@ -119,5 +119,78 @@ class UnicodeIndexIntegrity(unittest.TestCase):
                 self.assertEqual(self.index_bytes(), self.before)
 
 
+    def assert_duplicate_record_rejected(self, section, raw, key):
+        row = self.records[section]
+        path = self.host / section / "records" / (row["id"] + ".json")
+        try:
+            for action in ("check", "build"):
+                with self.subTest(section=section, action=action, key=key):
+                    path.write_text(raw, encoding="utf-8")
+                    record_before = path.read_bytes()
+                    output = io.StringIO()
+                    with contextlib.redirect_stdout(output):
+                        result = library.run(self.host, action)
+                    self.assertEqual(result, 1)
+                    self.assertIn("duplicate JSON key", output.getvalue())
+                    self.assertIn(str(path), output.getvalue())
+                    self.assertIn(key, output.getvalue())
+                    output.getvalue().encode("utf-8", errors="strict")
+                    self.assertEqual(path.read_bytes(), record_before)
+                    self.assertEqual(self.index_bytes(), self.before)
+        finally:
+            self.write_record(section, row)
+            self.assertEqual(library.run(self.host, "build"), 0)
+
+    def test_duplicate_record_keys_in_both_orders(self):
+        for section, row in self.records.items():
+            raw = json.dumps(row)
+            original = '"title": ' + json.dumps(row["title"])
+            for members in (
+                '"title": "different", ' + original,
+                original + ', "title": "different"',
+                original + ', ' + original,
+                r'"tit\u006ce": "different", ' + original,
+            ):
+                with self.subTest(section=section, members=members):
+                    self.assert_duplicate_record_rejected(
+                        section, raw.replace(original, members, 1), "title")
+
+    def test_duplicate_nested_record_keys_in_both_orders(self):
+        for section, row in self.records.items():
+            raw = json.dumps(row)
+            original = '"status": "untested"'
+            self.assertIn(original, raw)
+            for members in ('"status": "planned", ' + original,
+                            original + ', "status": "planned"'):
+                with self.subTest(section=section, members=members):
+                    self.assert_duplicate_record_rejected(
+                        section, raw.replace(original, members, 1), "status")
+
+    def test_duplicate_parser_scope_and_safe_diagnostic(self):
+        for raw in ('{"a":1,"a":1}', '{"x":[{"a":1,"a":2}]}',
+                    r'{"a":1,"\u0061":2}', r'{"\ud800":1,"\ud800":2}'):
+            with self.subTest(raw=raw):
+                with self.assertRaisesRegex(ValueError, "duplicate JSON key") as caught:
+                    library.parse_json(raw)
+                str(caught.exception).encode("utf-8", errors="strict")
+        self.assertEqual(library.parse_json('{"a":1,"A":2,"x":[{"a":3},{"a":4}]}'),
+                         {"a": 1, "A": 2, "x": [{"a": 3}, {"a": 4}]})
+        self.assertEqual(library.run(self.host, "check"), 0)
+        self.assertEqual(library.run(self.host, "build"), 0)
+        self.assertEqual(self.index_bytes(), self.before)
+
+    def test_duplicate_schema_keys_are_rejected(self):
+        path = self.host / "ideas/schema/v1/idea.schema.json"
+        raw = path.read_text(encoding="utf-8")
+        self.assertIn('"type": "object"', raw)
+        path.write_text(raw.replace('"type": "object"',
+                                    '"type": "object", "type": "object"', 1),
+                        encoding="utf-8")
+        issues, ideas, features = library.validate(self.host)
+        self.assertIn("duplicate JSON key", " ".join(issues))
+        self.assertIn("type", " ".join(issues))
+        self.assertEqual((ideas, features), ({}, {}))
+        self.assertEqual(self.index_bytes(), self.before)
+
 if __name__ == "__main__":
     unittest.main()
