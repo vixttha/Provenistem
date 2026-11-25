@@ -34,6 +34,10 @@ No GitHub Actions workflow, runner configuration, release authorization, or deve
 
 [The interoperability boundary](docs/ONE-WAY-BOUNDARY.md) allows Governance-Branch to *offer* Provenistem as an opt-in, host-owned module, but forbids mandatory dependencies, upstream mutations, silent installation, schema conversion and overwriting canonical `ideas/` or `features/` paths. The adapter is a future design, not a shipped integration.
 
+### Duplicate JSON member rejection (forward repair)
+
+The optional validator rejects repeated decoded member names in every JSON object, including nested objects in idea and feature records and the schemas read by the shared decoder. Identical repeated values are also invalid; distinct objects may reuse the same member name. Record diagnostics identify the file and repeated key. Check and build stop on invalid records before writing either derived index. Exact decimal parsing and strict v1 integer checks remain unchanged.
+
 ## Authority and trust
 
 An idea is not approval to implement. A feature record is not permission to run a tool, proof of test success, or evidence of release. This library never supersedes project owner decisions, `AGENTS.md`, code owners, protected branches, official release records or external acceptance gates.

@@ -100,9 +100,21 @@ def reject_constant(literal):
     raise ValueError("invalid nonfinite JSON constant: " + literal)
 
 
+def reject_duplicate_keys(pairs):
+    """Reject repeated decoded member names in each JSON object."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            # ASCII repr keeps malformed Unicode and control characters safe to report.
+            raise ValueError(f"duplicate JSON key: {ascii(key)}")
+        result[key] = value
+    return result
+
+
 def parse_json(text):
     # Leave integer tokens as int, preserving strict existing v1 type checks.
-    return json.loads(text, parse_float=parse_decimal, parse_constant=reject_constant)
+    return json.loads(text, parse_float=parse_decimal, parse_constant=reject_constant,
+                      object_pairs_hook=reject_duplicate_keys)
 
 
 def valid_unicode(value):
