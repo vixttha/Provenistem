@@ -4,9 +4,12 @@ on:
     branches: [main]
     paths:
       - 'licensing/v0.0.2.7/**'
+      - 'packages/provenistem/**'
+      - 'LICENSE'
+      - 'README.md'
       - '.github/workflows/licensing-candidate-review.yml'
   push:
-    branches: [review/v0.0.2.7-licensing]
+    branches: [review/v0.0.2.7-licensing, main]
 permissions:
   contents: read
 jobs:
@@ -27,8 +30,8 @@ jobs:
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
-      - name: Verify exact legal reference and review-only proposal
-        run: python licensing/v0.0.2.7/verify_review.py
+      - name: Verify exact prospective scope and actual package
+        run: python licensing/v0.0.2.7/verify_operative.py
       - name: Reject uncommitted baseline changes before import
         shell: bash
         run: |
@@ -39,10 +42,10 @@ jobs:
           original = path.read_bytes()
           try:
               path.write_bytes(original + b"\nraise RuntimeError('tampered module imported')\n")
-              result = subprocess.run([sys.executable, "licensing/v0.0.2.7/verify_review.py"],
+              result = subprocess.run([sys.executable, "licensing/v0.0.2.7/verify_operative.py"],
                                       capture_output=True, text=True, timeout=30)
               if (result.returncode == 0 or "changed working-tree baseline: packages/provenistem/tools/library.py" not in result.stderr
-                      or "RuntimeError: tampered module imported" in result.stderr or "REVIEW_PASS" in result.stdout):
+                      or "RuntimeError: tampered module imported" in result.stderr or "OPERATIVE_CANDIDATE_PASS" in result.stdout):
                   raise RuntimeError("dirty baseline rejection failed: " + result.stderr)
               print("DIRTY_BASELINE_REJECTED before importing product code")
           finally:
@@ -51,6 +54,9 @@ jobs:
       - name: Existing portable package regression suite
         working-directory: packages/provenistem
         run: python -m unittest discover -s tests -v
+      - name: Verify full isolated copied package
+        working-directory: packages/provenistem
+        run: python ../../audit/verify_adoption_copy.py
       - name: Verify clean checkout
         shell: bash
         run: test -z "$(git status --porcelain)"

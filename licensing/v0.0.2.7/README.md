@@ -1,6 +1,6 @@
 # Bounded licensing acceptance — v0.0.2.7 / issue #8
 
-Status: review only; no operative terms, release or installation authorized.
+Status: bounded declaration accepted; operative prospective candidate prepared for final owner review, not authorized for merge or distribution. The earlier review-only artifacts are retained as historical evidence.
 
 ## Evidence and disposition
 
@@ -31,3 +31,7 @@ This records bounded engineering acceptance, not an independently signed instrum
 ## Technical verification
 
 The isolated verification checks both committed and working-tree bytes for all original blobs against the baseline, every previously observed notice pin, the official Strict Git blob, inactive scope, the exact proposed legal pair, three simulated package layouts, missing/changed/wrong-type pair rejection and host-conflict preservation. It refuses authorization for a draft even when its bytes match. No product runtime change; no new mandatory dependency. The preview is not a real adopter or distribution. Passing tests are technical evidence, not legal-title clearance.
+
+## Operative prospective candidate — successor to the review-only draft
+
+The review-only commit [2931c07](https://github.com/vixttha/Provenistem/tree/2931c0742e83aca101f475b5afbffdc7fd9a8692) completed CodeRabbit review with no actionable findings; the original dirty-baseline finding was fixed and resolved. The unchanged draft terms and scope in this directory are archival, not current package terms. The new [operative scope](operative-scope.json) and [portable notice](../../packages/provenistem/PROVENISTEM-NOTICE.md) supersede that proposal upon explicit owner-approved integration and authorized distribution. There is one newly authored restricted module, tools/license_guard.py, pinned to origin `bae5899a180ae52e05c896d758d01967e0d28a87`, not a relicensing of the existing helpers. This is a narrower, separately identifiable addition outside the draft's nine-path allowlist; exact scope requires owner approval. All six changed pre-existing baseline files and all other new checkpoint content except that scheduled module and the standard license text retain MIT treatment to the extent rights are held. No baseline code is converted. Both historical MIT notices remain byte-identical. The actual portable profiles are 23/26/33 files: two legal files in every profile and the new optional module only in tools/full. The new planner checks three legal SHA-256 pins, never writes, and is not an authentication or authorization service. Use the matching revision's planner; legacy planners lack the new inventory. The prior proposal verifier is retained at its pinned draft revision, not used to qualify this new package. No independent legal-title, patent or commercial clearance claimed. Final owner approval must identify the exact head and scope; distribution/release is separately authorized. No VIB ledger writes.
