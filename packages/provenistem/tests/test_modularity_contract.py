@@ -109,6 +109,30 @@ class ModularityContractTests(unittest.TestCase):
         self.assertIn("NAMESPACE_COLLISION", text)
         self.assertNotIn("must remain **agnostic** to the existence", text)
 
+    def test_engineering_laws_match_approved_wording(self):
+        expected = "<!-- engineering-laws:start -->\n1. **Independence:** Every tool must remain independently installable, usable, versioned and maintained.\n2. **Composability:** Installing additional tools expands the agent's capabilities without creating mandatory dependencies.\n3. **Portability:** No mandatory AI provider, model, agent harness or paid execution service.\n4. **Persistence:** Project knowledge, decisions, progress and evidence survive the termination of an AI session.\n5. **Verification:** Development claims must be supported by reproducible, revision-bound evidence.\n6. **Owner authority:** The human retains control over scope, architectural decisions, integration and releases.\n<!-- engineering-laws:end -->"
+        start, end = "<!-- engineering-laws:start -->", "<!-- engineering-laws:end -->"
+        for name in ("README.md", "LIBRARY-AGENT-GUIDE.md"):
+            with self.subTest(document=name):
+                document = (ROOT / name).read_text(encoding="utf-8")
+                self.assertEqual(document.count(start), 1)
+                self.assertEqual(document.count(end), 1)
+                self.assertEqual(document[document.index(start):document.index(end) + len(end)],
+                                 expected)
+
+    def test_laws_reconcile_with_existing_scope_and_integration_decisions(self):
+        for name in ("PRODUCT-SCOPE-LOCK.md", "PORTABILITY-AND-MODULE-CONTRACT.md"):
+            with self.subTest(document=name):
+                document = (ROOT / "docs" / name).read_text(encoding="utf-8")
+                self.assertIn("ENGINEERING-ECOSYSTEM-LAWS-001", document)
+                self.assertIn("(../README.md#owner-approved-engineering-ecosystem-laws)", document)
+                self.assertIn("(../LIBRARY-AGENT-GUIDE.md#owner-approved-engineering-ecosystem-laws)", document)
+                self.assertIn("No new execution, write, integration or release authority", document)
+        self.assertEqual(self.policy["adapter_implementation_status"], "NOT_IMPLEMENTED")
+        self.assertFalse(self.policy["optional_integration"]["adapter_required"])
+        self.assertFalse(self.policy["product"]["evidence_reference_is_authentication"])
+        self.assertTrue(self.policy["release_guards"]["doc_lock_not_runtime_enforcement"])
+
     def test_v002_release_remains_historical(self):
         g = self.policy["release_guards"]
         self.assertTrue(g["v002_historical_tag_immutable"])
