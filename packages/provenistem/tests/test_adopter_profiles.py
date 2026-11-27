@@ -216,6 +216,54 @@ class AdopterProfiles(unittest.TestCase):
         self.assertTrue(all(entry["action"] == "ADD" for entry in result["entries"]))
         self.assertFalse((self.root / "absent").exists())
 
+    def test_existing_destination_blocked_intermediates(self):
+        for relative in ("ideas", "features", "templates", "ideas/schema",
+                         "features/records", "docs", "tools", "tests"):
+            with self.subTest(relative=relative):
+                dest = self.root / ("blocked-" + relative.replace("/", "-"))
+                blocker = dest / relative
+                blocker.parent.mkdir(parents=True)
+                blocker.write_bytes(b"HOST")
+                before = {p.relative_to(dest): p.read_bytes()
+                          for p in dest.rglob("*") if p.is_file()}
+                output = io.StringIO()
+                with contextlib.redirect_stdout(output):
+                    code = adopter.main([str(dest), "--source", str(ROOT)])
+                result = json.loads(output.getvalue())
+                self.assertEqual(code, 2)
+                self.assertEqual(result["status"], "BLOCKED")
+                self.assertFalse(result["writes"])
+                self.assertIn(str(blocker), result["error"])
+                self.assertNotIn("entries", result)
+                self.assertEqual(before, {p.relative_to(dest): p.read_bytes()
+                                         for p in dest.rglob("*") if p.is_file()})
+
+    def test_existing_destination_missing_intermediates_allowed(self):
+        dest = self.root / "empty-existing"
+        dest.mkdir()
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            self.assertEqual(adopter.main([str(dest), "--source", str(ROOT)]), 0)
+        result = json.loads(output.getvalue())
+        self.assertEqual(result["status"], "EXISTING_DESTINATION")
+        self.assertFalse(result["writes"])
+        self.assertTrue(result["entries"])
+        self.assertTrue(all(e["action"] == "ADD" for e in result["entries"]))
+        self.assertEqual(list(dest.iterdir()), [])
+
+    def test_existing_destination_leaf_directory_conflict_unchanged(self):
+        dest = self.root / "leaf-conflict"
+        (dest / "LICENSE").mkdir(parents=True)
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            self.assertEqual(adopter.main([str(dest), "--source", str(ROOT)]), 1)
+        result = json.loads(output.getvalue())
+        self.assertEqual(result["status"], "EXISTING_DESTINATION")
+        self.assertFalse(result["writes"])
+        self.assertIn({"path": "LICENSE", "action": "CONFLICT_DIRECTORY"},
+                      result["entries"])
+        self.assertEqual(list(dest.iterdir()), [dest / "LICENSE"])
+
     def test_clean_host_plan_never_writes(self):
         dest = self.root / "brand-new-root"
         result = adopter.plan(ROOT, dest)
