@@ -153,6 +153,12 @@
           "path": "packages/provenistem/tests/test_adopter_profiles.py",
           "anchor": "def test_legal_upgrade_plan_preserves_host_notices_and_records(self):"
         }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "verify_notices(source, LICENSE_DIGESTS)"
+        }
       ]
     }
   ]
