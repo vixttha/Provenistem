@@ -14,8 +14,11 @@ Open the [Ideas & Features catalog](https://github.com/vixttha/Provenistem/blob/
 
 ## Versions
 
-- [v0.0.2](https://github.com/vixttha/Provenistem/tree/v0.0.2) — current standalone baseline.
+- [v0.0.2.4](https://github.com/vixttha/Provenistem/tree/v0.0.2.4) — accepted product snapshot preceding the architectural reconciliation.
+- [v0.0.2](https://github.com/vixttha/Provenistem/tree/v0.0.2) — historical standalone baseline.
 - [v0.0.1](https://github.com/vixttha/Provenistem/tree/v0.0.1) — historical starter.
+
+The v0.0.2.5 checkpoint reconciled the [Veraphify workspace](https://github.com/vixttha/Provenistem/tree/45d0d7a7bf55650d8f71cbfbf1fec656c99c319e), without changing product main or publishing a product release. See the [decision reconciliation](ENGINEERING-LAWS.md#decision-reconciliation--v0026-candidate) for the scope and authority boundaries.
 
 ## Start here
 

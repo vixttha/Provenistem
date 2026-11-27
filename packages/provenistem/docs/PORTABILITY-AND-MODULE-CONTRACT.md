@@ -64,3 +64,7 @@ The current private v0.0.2 release is **historical and immutable**. It predates 
 This document and its companion JSON/test establish a **reviewable owner-approved architecture policy**. They do not modify any host's runtime, implement the optional adapter, or magically enforce GitHub branch protections. The current product remains independently usable. The live combined integration is `NOT_IMPLEMENTED` until real code, host opt-in, no-clobber tests and version-specific acceptance exist.
 
 This contract does not change other projects' release gates or turn an internal audit into an independent external security review.
+
+## Relationship to the six engineering laws
+
+The owner-approved decision `ENGINEERING-ECOSYSTEM-LAWS-001` (2026-11-24) applies alongside the existing scope and optional integration locks. Read the exact wording in the [portable entry point](../README.md#owner-approved-engineering-ecosystem-laws) and [agent guide](../LIBRARY-AGENT-GUIDE.md#owner-approved-engineering-ecosystem-laws). These laws do not expand Provenistem beyond Ideas & Features tracking, require an adapter, or change ownership of canonical records. Optional peers and evidence links remain optional; recorded decisions and evidence references are not authorization or independent attestation. No new execution, write, integration or release authority is granted. Historical releases remain immutable; changes to locked decisions need separate explicit owner approval. These documents describe policy, not runtime permission enforcement.
