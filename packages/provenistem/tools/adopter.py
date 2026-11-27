@@ -118,6 +118,15 @@ def plan(source, destination):
     entries = []
     for relative in candidates(source):
         target = destination / relative
+        # Walk from the selected host root before inspecting the leaf. A file
+        # at an intermediate component can make the leaf appear merely absent.
+        current = destination
+        for part in relative.parts[:-1]:
+            current = current / part
+            if current.is_symlink():
+                raise ValueError(f"host path symlink: {relative}")
+            if current.exists() and not current.is_dir():
+                raise ValueError(f"host path ancestor is not a directory: {current}")
         if library.has_link_component(destination, target):
             raise ValueError(f"host path symlink: {relative}")
         if target.is_dir():
