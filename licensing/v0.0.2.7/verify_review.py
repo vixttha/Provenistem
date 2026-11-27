@@ -6,7 +6,7 @@ import subprocess
 import sys
 import tempfile
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 DRAFT = ROOT / "licensing/v0.0.2.7"
 SOURCE = ROOT / "packages/provenistem"
 sys.path.insert(0, str(SOURCE / "tools"))
