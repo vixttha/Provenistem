@@ -27,7 +27,7 @@
       "implemented_in": [
         {
           "path": "packages/provenistem/tools/adopter.py",
-          "anchor": "def candidates(source):"
+          "anchor": "def candidates(source, profile=\"auto\"):"
         }
       ],
       "tested_by": [
@@ -67,7 +67,7 @@
       "implemented_in": [
         {
           "path": "packages/provenistem/tools/adopter.py",
-          "anchor": "def plan(source, destination):"
+          "anchor": "def plan(source, destination, profile=\"auto\"):"
         }
       ],
       "tested_by": [
@@ -82,6 +82,46 @@
         {
           "path": "packages/provenistem/tests/test_adopter_profiles.py",
           "anchor": "def test_no_clobber_plan_on_existing_host(self):"
+        }
+      ]
+    },
+    {
+      "id": "adoption-source-completeness",
+      "label": "Reject incomplete selected portable source profiles",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "### Complete source profiles"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "PACKAGE_BASIC_FILES = ("
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def candidates(source, profile=\"auto\"):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_incomplete_source_basic_inventory_is_blocked(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_incomplete_source_optional_inventory_is_blocked(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_source_profiles_preserve_complete_copy_sets(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_auto_profile_rejects_present_incomplete_groups(self):"
         }
       ]
     }

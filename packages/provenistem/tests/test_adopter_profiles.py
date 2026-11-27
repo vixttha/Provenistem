@@ -189,6 +189,144 @@ class AdopterProfiles(unittest.TestCase):
                     self.assertTrue((md.parent / link.split("#", 1)[0]).is_file(),
                                     f"{md.name}: {link}")
 
+    def test_incomplete_source_basic_inventory_is_blocked(self):
+        required = ("LICENSE", "README.md", "LIBRARY-AGENT-GUIDE.md",
+                    "ideas/INDEX.md", "ideas/README.md",
+                    "ideas/schema/v1/idea.schema.json", "ideas/records/.gitkeep",
+                    "features/INDEX.md", "features/README.md",
+                    "features/schema/v1/feature.schema.json", "features/records/.gitkeep",
+                    "templates/idea.example.json", "templates/feature.example.json",
+                    "docs/ADOPTION.md", "docs/ISOLATION.md", "docs/LIFECYCLE.md",
+                    "docs/ONE-WAY-BOUNDARY.md", "docs/PROVENANCE.md",
+                    "docs/PORTABILITY-AND-MODULE-CONTRACT.md",
+                    "docs/PORTABILITY-AND-MODULE-CONTRACT.json", "docs/PRODUCT-SCOPE-LOCK.md")
+        source = self.root / "source-basic"
+        shutil.copytree(ROOT, source)
+        dest = self.root / "destination-basic"
+        dest.mkdir()
+        sentinel = dest / "owner.txt"
+        sentinel.write_bytes(b"HOST")
+        for relative in required:
+            path = source / relative
+            original = path.read_bytes()
+            path.unlink()
+            for wrong_type in (False, True):
+                with self.subTest(relative=relative, wrong_type=wrong_type):
+                    if wrong_type:
+                        path.mkdir()
+                    before = {p.relative_to(source): p.read_bytes()
+                              for p in source.rglob("*") if p.is_file()}
+                    output = io.StringIO()
+                    with contextlib.redirect_stdout(output):
+                        code = adopter.main([str(dest), "--source", str(source)])
+                    result = json.loads(output.getvalue())
+                    try:
+                        self.assertEqual(code, 2)
+                        self.assertEqual(result["status"], "BLOCKED")
+                        self.assertFalse(result["writes"])
+                        self.assertIn(relative, result["error"])
+                        self.assertNotIn("entries", result)
+                        self.assertEqual(sentinel.read_bytes(), b"HOST")
+                        self.assertEqual(list(dest.iterdir()), [sentinel])
+                        self.assertEqual(before, {p.relative_to(source): p.read_bytes()
+                                                  for p in source.rglob("*") if p.is_file()})
+                    finally:
+                        if wrong_type:
+                            path.rmdir()
+            path.write_bytes(original)
+
+    def test_incomplete_source_optional_inventory_is_blocked(self):
+        source = self.root / "source-optional"
+        shutil.copytree(ROOT, source)
+        dest = self.root / "destination-optional"
+        paths = [p for group in ("tools", "tests") for p in (source / group).iterdir()
+                 if p.is_file() and p.suffix == ".py"]
+        self.assertEqual(len(paths), 9)
+        for path in paths:
+            relative = path.relative_to(source).as_posix()
+            original = path.read_bytes()
+            path.unlink()
+            for wrong_type in (False, True):
+                with self.subTest(relative=relative, wrong_type=wrong_type):
+                    if wrong_type:
+                        path.mkdir()
+                    output = io.StringIO()
+                    with contextlib.redirect_stdout(output):
+                        code = adopter.main([str(dest), "--source", str(source)])
+                    result = json.loads(output.getvalue())
+                    try:
+                        self.assertEqual(code, 2)
+                        self.assertEqual(result["status"], "BLOCKED")
+                        self.assertFalse(result["writes"])
+                        self.assertIn(relative, result["error"])
+                        self.assertNotIn("entries", result)
+                        self.assertFalse(dest.exists())
+                    finally:
+                        if wrong_type:
+                            path.rmdir()
+            path.write_bytes(original)
+
+    def test_source_profiles_preserve_complete_copy_sets(self):
+        source = self.root / "source-profiles"
+        shutil.copytree(ROOT, source)
+        dest = self.root / "destination-profiles"
+        def planned(profile=None):
+            output = io.StringIO()
+            args = [str(dest), "--source", str(source)]
+            if profile is not None:
+                args.extend(["--profile", profile])
+            with contextlib.redirect_stdout(output):
+                code = adopter.main(args)
+            self.assertFalse(dest.exists())
+            result = json.loads(output.getvalue())
+            self.assertFalse(result["writes"])
+            return code, result
+
+        for profile, count in ((None, 30), ("full", 30),
+                               ("tools", 23), ("basic", 21)):
+            with self.subTest(profile=profile):
+                code, result = planned(profile)
+                self.assertEqual(code, 0)
+                self.assertEqual(result["status"], "NEW_DESTINATION")
+                entries = result["entries"]
+                self.assertEqual(len(entries), count)
+                self.assertTrue(all(e["action"] == "ADD" for e in entries))
+                paths = {e["path"] for e in entries}
+                self.assertIn("LICENSE", paths)
+                self.assertEqual(any(p.startswith("tools/") for p in paths), count >= 23)
+                self.assertEqual(any(p.startswith("tests/") for p in paths), count == 30)
+        shutil.rmtree(source / "tests")
+        self.assertEqual(len(planned()[1]["entries"]), 23)
+        code, result = planned("full")
+        self.assertEqual((code, result["status"]), (2, "BLOCKED"))
+        self.assertIn("tests/", result["error"])
+        self.assertNotIn("entries", result)
+        shutil.rmtree(source / "tools")
+        self.assertEqual(len(planned()[1]["entries"]), 21)
+        for profile in ("tools", "full"):
+            code, result = planned(profile)
+            self.assertEqual((code, result["status"]), (2, "BLOCKED"))
+            self.assertNotIn("entries", result)
+
+    def test_auto_profile_rejects_present_incomplete_groups(self):
+        source = self.root / "source-groups"
+        shutil.copytree(ROOT, source)
+        dest = self.root / "destination-groups"
+        shutil.rmtree(source / "tools")
+        # A test-bearing source must also contain the helper profile.
+        with self.assertRaisesRegex(ValueError, "tools/"):
+            adopter.plan(source, dest)
+        shutil.rmtree(source / "tests")
+        for group in ("tools", "tests"):
+            with self.subTest(group=group):
+                path = source / group
+                path.write_bytes(b"NOT A DIRECTORY")
+                with self.assertRaisesRegex(ValueError, "required source file"):
+                    adopter.plan(source, dest)
+                self.assertEqual(path.read_bytes(), b"NOT A DIRECTORY")
+                path.unlink()
+        self.assertFalse(dest.exists())
+
     def test_new_destination_below_file_is_blocked(self):
         parent = self.root / "host-file"
         parent.write_bytes(b"HOST")

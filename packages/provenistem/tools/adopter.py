@@ -27,8 +27,46 @@ PACKAGE_TEST_FILES = {
 }
 
 
-def candidates(source):
-    files = []
+# The basic distribution includes the documented blank-record placeholders.
+PACKAGE_BASIC_FILES = (
+    set(PACKAGE_TOPLEVEL)
+    | {f"docs/{name}" for name in PACKAGE_DOCS}
+    | {f"{section}/{name}" for section in ("ideas", "features")
+       for name in ("README.md", "INDEX.md", "records/.gitkeep")}
+    | {"ideas/schema/v1/idea.schema.json", "features/schema/v1/feature.schema.json",
+       "templates/idea.example.json", "templates/feature.example.json"}
+)
+PROFILES = ("auto", "basic", "tools", "full")
+
+
+def candidates(source, profile="auto"):
+    if profile not in PROFILES:
+        raise ValueError(f"unknown source profile: {profile}")
+    if profile == "auto":
+        # A present (even malformed) optional group selects its entire inventory.
+        # Explicit full/tools selection also catches entirely absent groups.
+        tests = source / "tests"
+        tools = source / "tools"
+        if tests.is_symlink() or tests.exists():
+            profile = "full"
+        elif tools.is_symlink() or tools.exists():
+            profile = "tools"
+        else:
+            profile = "basic"
+
+    required = set(PACKAGE_BASIC_FILES)
+    if profile in ("tools", "full"):
+        required.update(f"tools/{name}" for name in PACKAGE_TOOL_FILES)
+    if profile == "full":
+        required.update(f"tests/{name}" for name in PACKAGE_TEST_FILES)
+    for name in sorted(required):
+        path = source / name
+        if library.has_link_component(source, path):
+            raise ValueError(f"source symlink component forbidden: {name}")
+        if not path.is_file():
+            raise ValueError(f"required source file missing or not a regular file: {name}")
+
+    files = [Path(name) for name in required]
     for section in PACKAGE_ROOTS:
         folder = source / section
         if not folder.is_dir() or library.has_link_component(source, folder):
@@ -38,24 +76,7 @@ def candidates(source):
                 raise ValueError(f"source symlink is forbidden: {path}")
             if path.is_file():
                 files.append(path.relative_to(source))
-    for name in PACKAGE_TOPLEVEL:
-        path = source / name
-        if path.is_file():
-            files.append(path.relative_to(source))
-    for name in sorted(PACKAGE_DOCS):
-        path = source / "docs" / name
-        if path.is_file():
-            files.append(path.relative_to(source))
-    for prefix, allowed in (("tools", PACKAGE_TOOL_FILES), ("tests", PACKAGE_TEST_FILES)):
-        for name in sorted(allowed):
-            path = source / prefix / name
-            if path.is_file():
-                files.append(path.relative_to(source))
-    ordered = sorted(set(files), key=lambda p: p.as_posix())
-    for relative in ordered:
-        if library.has_link_component(source, source / relative):
-            raise ValueError(f"source symlink component forbidden: {relative}")
-    return ordered
+    return sorted(set(files), key=lambda p: p.as_posix())
 
 
 def governance_collision(destination):
@@ -90,7 +111,7 @@ def governance_collision(destination):
     return sorted(set(found))
 
 
-def plan(source, destination):
+def plan(source, destination, profile="auto"):
     source = Path(source).absolute()
     destination = Path(destination).absolute()
     if source == destination:
@@ -107,7 +128,7 @@ def plan(source, destination):
         # Parent path cannot be treated as an authorized installation.
         return {"status": "NEW_DESTINATION", "writes": False,
                 "entries": [{"path": p.as_posix(), "action": "ADD"}
-                            for p in candidates(source)]}
+                            for p in candidates(source, profile)]}
     if library.has_link_component(destination, destination):
         raise ValueError("host root symlink")
     collision = governance_collision(destination)
@@ -116,7 +137,7 @@ def plan(source, destination):
         return {"status": "NAMESPACE_COLLISION", "writes": False,
                 "entries": [], "markers": collision}
     entries = []
-    for relative in candidates(source):
+    for relative in candidates(source, profile):
         target = destination / relative
         # Walk from the selected host root before inspecting the leaf. A file
         # at an intermediate component can make the leaf appear merely absent.
@@ -149,9 +170,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("destination", type=Path, help="chosen host library directory")
     parser.add_argument("--source", type=Path, default=library.ROOT)
+    parser.add_argument("--profile", choices=PROFILES, default="auto",
+                        help="source copy profile (default: detect optional groups)")
     args = parser.parse_args(argv)
     try:
-        result = plan(args.source, args.destination)
+        result = plan(args.source, args.destination, args.profile)
     except (ValueError, OSError) as exc:
         print(json.dumps({"status": "BLOCKED", "writes": False, "error": str(exc)}))
         return 2
