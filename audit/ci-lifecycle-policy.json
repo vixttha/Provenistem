@@ -1,0 +1,32 @@
+{
+  "schema": "provenistem/ci-lifecycle/v1",
+  "historical_commit": "ce5f2d77c3f553d702718e27de82cd9e3ea3a178",
+  "historical_tree": "b3631b8cade61a802d0c0d8c9180b141e5a07c11",
+  "historical_directory": {
+    "path": "licensing/v0.0.2.7",
+    "tree": "cc6f098144ccc4b6d9bc4279c9b0170656202f94"
+  },
+  "protected_files": {
+    "LICENSE": {
+      "blob": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+      "sha256": "c12fd1b8185dd55dc131bce9529719650d928b3b2d92016d721ff8258e083c93"
+    },
+    "packages/provenistem/LICENSE": {
+      "blob": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+      "sha256": "c12fd1b8185dd55dc131bce9529719650d928b3b2d92016d721ff8258e083c93"
+    },
+    "packages/provenistem/PROVENISTEM-LICENSE.md": {
+      "blob": "90abd0e6c64a135f42451762337a397bf27f4862",
+      "sha256": "9eb48619fbc193ab7bb327b090cfcc703000265b83e670f81f231d0b1c43c56e"
+    },
+    "packages/provenistem/PROVENISTEM-NOTICE.md": {
+      "blob": "81bee270f043dcf473f02eba27b85eccdd6bf836",
+      "sha256": "65fb104fc08c63534e4366ceadca61fe79aa7b9ba3ecfc787ba8b4ffb4013255"
+    },
+    "packages/provenistem/tools/license_guard.py": {
+      "blob": "7aff9c547bc2a8c529346a5ada90b538ba9480cb",
+      "sha256": "50b0d06b0ec8e6e92e85e6d9ed256d9ffdd599b3fdf8ab2962585ad7fa4b80bf"
+    }
+  },
+  "authority": "technical integrity only; no licensing, integration, distribution or release authority"
+}

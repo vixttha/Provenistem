@@ -42,6 +42,8 @@ python -m unittest discover -s tests -v
 
 ## Development
 
+[CI lifecycle and historical replay](audit/CI-LIFECYCLE.md) distinguish frozen licensing evidence from current package validation.
+
 The initial import preserves the portable source files and the upstream MIT
 notice. The previous private package release remains historical. New release
 claims belong to this repository's own tags and validation evidence.
