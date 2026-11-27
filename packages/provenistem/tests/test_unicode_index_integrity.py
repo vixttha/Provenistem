@@ -2,6 +2,8 @@
 import contextlib
 import io
 import json
+import os
+import subprocess
 import shutil
 import sys
 import tempfile
@@ -191,6 +193,83 @@ class UnicodeIndexIntegrity(unittest.TestCase):
         self.assertIn("type", " ".join(issues))
         self.assertEqual((ideas, features), ({}, {}))
         self.assertEqual(self.index_bytes(), self.before)
+
+    def snapshot(self):
+        return {p.relative_to(self.host).as_posix(): p.read_bytes()
+                for p in self.host.rglob("*") if p.is_file()}
+
+    def test_malformed_index_cli_check_is_read_only(self):
+        for section in ("ideas", "features"):
+            for raw in (b"\xff", b"\xe2\x82", b"\xed\xa0\x80"):
+                with self.subTest(section=section, raw=raw):
+                    path = self.host / section / "INDEX.md"
+                    path.write_bytes(raw)
+                    before = self.snapshot()
+                    result = subprocess.run(
+                        [sys.executable, str(ROOT / "tools/library.py"), "check",
+                         "--root", str(self.host)], capture_output=True, text=True,
+                        encoding="utf-8", env=dict(os.environ, PYTHONIOENCODING="utf-8",
+                                                   PYTHONDONTWRITEBYTECODE="1"),
+                        timeout=30)
+                    self.assertEqual(result.returncode, 1)
+                    self.assertIn(f"{section}/INDEX.md", result.stdout)
+                    self.assertIn("invalid UTF-8", result.stdout)
+                    self.assertNotIn("Traceback", result.stderr)
+                    self.assertEqual(self.snapshot(), before)
+                    output = io.StringIO()
+                    with contextlib.redirect_stdout(output):
+                        self.assertEqual(library.reconcile(self.host, self.records["ideas"]["title"]), 0)
+                    self.assertEqual(json.loads(output.getvalue())["stale_indexes"], [section])
+                    self.assertEqual(self.snapshot(), before)
+                    self.assertEqual(library.run(self.host, "build"), 0)
+                    self.assertEqual(self.index_bytes(), self.before)
+                    self.assertEqual(library.run(self.host, "check"), 0)
+                    repaired = self.snapshot()
+                    self.assertEqual(library.run(self.host, "build"), 0)
+                    self.assertEqual(self.snapshot(), repaired)
+                    self.assertEqual({k:v for k,v in before.items() if not k.endswith("/INDEX.md")},
+                                     {k:v for k,v in repaired.items() if not k.endswith("/INDEX.md")})
+
+    def test_index_read_errors_report_both_paths(self):
+        original = Path.read_text
+        before = self.snapshot()
+        for sections in (("ideas",), ("features",), ("ideas", "features")):
+            for error in (PermissionError("injected permission error"),
+                          OSError("injected read failure")):
+                with self.subTest(sections=sections, error=error):
+                    targets = {self.host / s / "INDEX.md" for s in sections}
+                    def fail_read(path, *args, **kwargs):
+                        if path in targets:
+                            raise error
+                        return original(path, *args, **kwargs)
+                    output = io.StringIO()
+                    with patch.object(Path, "read_text", fail_read):
+                        with contextlib.redirect_stdout(output):
+                            self.assertEqual(library.run(self.host, "check"), 1)
+                    for section in sections:
+                        self.assertIn(f"{section}/INDEX.md", output.getvalue())
+                    self.assertIn(str(error), output.getvalue())
+                    self.assertEqual(self.snapshot(), before)
+
+    def test_missing_stale_and_valid_index_checks(self):
+        for section in ("ideas", "features"):
+            path = self.host / section / "INDEX.md"
+            for state in ("missing", "stale"):
+                with self.subTest(section=section, state=state):
+                    if state == "missing":
+                        path.unlink()
+                    else:
+                        path.write_bytes(b"stale\n")
+                    before = self.snapshot()
+                    output = io.StringIO()
+                    with contextlib.redirect_stdout(output):
+                        self.assertEqual(library.run(self.host, "check"), 1)
+                    self.assertIn(f"{section}/INDEX.md", output.getvalue())
+                    self.assertIn("stale or missing", output.getvalue())
+                    self.assertEqual(self.snapshot(), before)
+                    self.assertEqual(library.run(self.host, "build"), 0)
+                    self.assertEqual(self.index_bytes(), self.before)
+                    self.assertEqual(library.run(self.host, "check"), 0)
 
     def prepare_changed_indexes(self):
         for section in ("ideas", "features"):
