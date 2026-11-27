@@ -10,16 +10,18 @@ import json
 from pathlib import Path
 
 import library
+from license_guard import verify_notices
 
 PACKAGE_ROOTS = ("ideas", "features", "templates")
-PACKAGE_TOPLEVEL = ("README.md", "LICENSE", "LIBRARY-AGENT-GUIDE.md")
+PACKAGE_TOPLEVEL = ("README.md", "LICENSE", "LIBRARY-AGENT-GUIDE.md",
+                    "PROVENISTEM-LICENSE.md", "PROVENISTEM-NOTICE.md")
 PACKAGE_DOCS = {
     "ADOPTION.md", "ISOLATION.md", "LIFECYCLE.md",
     "ONE-WAY-BOUNDARY.md", "PROVENANCE.md",
     "PORTABILITY-AND-MODULE-CONTRACT.md", "PORTABILITY-AND-MODULE-CONTRACT.json",
     "PRODUCT-SCOPE-LOCK.md",
 }
-PACKAGE_TOOL_FILES = {"library.py", "adopter.py"}
+PACKAGE_TOOL_FILES = {"library.py", "adopter.py", "license_guard.py"}
 PACKAGE_TEST_FILES = {
     "test_library.py", "test_one_way_boundary.py", "test_hardening.py",
     "test_adopter_profiles.py", "test_v002_six_team_repairs.py",
@@ -37,6 +39,12 @@ PACKAGE_BASIC_FILES = (
        "templates/idea.example.json", "templates/feature.example.json"}
 )
 PROFILES = ("auto", "basic", "tools", "full")
+# Revision-specific legal inventory; not source authentication or authorization.
+LICENSE_DIGESTS = {
+    "LICENSE": "c12fd1b8185dd55dc131bce9529719650d928b3b2d92016d721ff8258e083c93",
+    "PROVENISTEM-LICENSE.md": "9eb48619fbc193ab7bb327b090cfcc703000265b83e670f81f231d0b1c43c56e",
+    "PROVENISTEM-NOTICE.md": "65fb104fc08c63534e4366ceadca61fe79aa7b9ba3ecfc787ba8b4ffb4013255"
+}
 
 
 def candidates(source, profile="auto"):
@@ -66,6 +74,7 @@ def candidates(source, profile="auto"):
         if not path.is_file():
             raise ValueError(f"required source file missing or not a regular file: {name}")
 
+    verify_notices(source, LICENSE_DIGESTS)
     files = [Path(name) for name in required]
     for section in PACKAGE_ROOTS:
         folder = source / section

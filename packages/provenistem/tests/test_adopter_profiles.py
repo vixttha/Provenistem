@@ -145,7 +145,8 @@ class AdopterProfiles(unittest.TestCase):
                         shutil.copytree(src, dest / item)
                     else:
                         shutil.copy2(src, dest / item)
-                for required in ("README.md", "LICENSE", "docs/LIFECYCLE.md",
+                for required in ("README.md", "LICENSE", "PROVENISTEM-LICENSE.md",
+                                 "PROVENISTEM-NOTICE.md", "docs/LIFECYCLE.md",
                                  "docs/ISOLATION.md", "templates/idea.example.json",
                                  "templates/feature.example.json"):
                     self.assertTrue((dest / required).is_file(), required)
@@ -168,7 +169,8 @@ class AdopterProfiles(unittest.TestCase):
         self.assertEqual(plan["status"], "NEW_DESTINATION")
         self.assertFalse(plan["writes"])
         self.assertFalse(dest.exists())
-        expected = {"README.md", "LICENSE", "LIBRARY-AGENT-GUIDE.md"}
+        expected = {"README.md", "LICENSE", "LIBRARY-AGENT-GUIDE.md",
+                    "PROVENISTEM-LICENSE.md", "PROVENISTEM-NOTICE.md"}
         for folder in ("ideas", "features", "templates", "docs", "tools", "tests"):
             expected.update(p.relative_to(ROOT).as_posix() for p in (ROOT / folder).rglob("*")
                             if p.is_file() and "__pycache__" not in p.parts
@@ -190,7 +192,8 @@ class AdopterProfiles(unittest.TestCase):
                                     f"{md.name}: {link}")
 
     def test_incomplete_source_basic_inventory_is_blocked(self):
-        required = ("LICENSE", "README.md", "LIBRARY-AGENT-GUIDE.md",
+        required = ("LICENSE", "PROVENISTEM-LICENSE.md", "PROVENISTEM-NOTICE.md",
+                    "README.md", "LIBRARY-AGENT-GUIDE.md",
                     "ideas/INDEX.md", "ideas/README.md",
                     "ideas/schema/v1/idea.schema.json", "ideas/records/.gitkeep",
                     "features/INDEX.md", "features/README.md",
@@ -241,7 +244,7 @@ class AdopterProfiles(unittest.TestCase):
         dest = self.root / "destination-optional"
         paths = [p for group in ("tools", "tests") for p in (source / group).iterdir()
                  if p.is_file() and p.suffix == ".py"]
-        self.assertEqual(len(paths), 9)
+        self.assertEqual(len(paths), 10)
         for path in paths:
             relative = path.relative_to(source).as_posix()
             original = path.read_bytes()
@@ -282,8 +285,8 @@ class AdopterProfiles(unittest.TestCase):
             self.assertFalse(result["writes"])
             return code, result
 
-        for profile, count in ((None, 30), ("full", 30),
-                               ("tools", 23), ("basic", 21)):
+        for profile, count in ((None, 33), ("full", 33),
+                               ("tools", 26), ("basic", 23)):
             with self.subTest(profile=profile):
                 code, result = planned(profile)
                 self.assertEqual(code, 0)
@@ -293,16 +296,16 @@ class AdopterProfiles(unittest.TestCase):
                 self.assertTrue(all(e["action"] == "ADD" for e in entries))
                 paths = {e["path"] for e in entries}
                 self.assertIn("LICENSE", paths)
-                self.assertEqual(any(p.startswith("tools/") for p in paths), count >= 23)
-                self.assertEqual(any(p.startswith("tests/") for p in paths), count == 30)
+                self.assertEqual(any(p.startswith("tools/") for p in paths), count >= 26)
+                self.assertEqual(any(p.startswith("tests/") for p in paths), count == 33)
         shutil.rmtree(source / "tests")
-        self.assertEqual(len(planned()[1]["entries"]), 23)
+        self.assertEqual(len(planned()[1]["entries"]), 26)
         code, result = planned("full")
         self.assertEqual((code, result["status"]), (2, "BLOCKED"))
         self.assertIn("tests/", result["error"])
         self.assertNotIn("entries", result)
         shutil.rmtree(source / "tools")
-        self.assertEqual(len(planned()[1]["entries"]), 21)
+        self.assertEqual(len(planned()[1]["entries"]), 23)
         for profile in ("tools", "full"):
             code, result = planned(profile)
             self.assertEqual((code, result["status"]), (2, "BLOCKED"))
@@ -444,6 +447,45 @@ class AdopterProfiles(unittest.TestCase):
         self.assertEqual(len(ideas) + len(features), 0)
         self.assertEqual(library.run(self.host, "check"), 0)
 
+
+    def test_legal_notice_tampering_blocks_all_profiles(self):
+        source = self.root / "source-legal"
+        shutil.copytree(ROOT, source)
+        host = self.root / "legal-host"
+        host.mkdir()
+        sentinel = host / "LICENSE"
+        sentinel.write_bytes(b"HOST OWNED")
+        for name in adopter.LICENSE_DIGESTS:
+            path = source / name
+            original = path.read_bytes()
+            try:
+                path.write_bytes(original + b"tampered")
+                for profile in adopter.PROFILES:
+                    with self.subTest(name=name, profile=profile):
+                        with self.assertRaisesRegex(ValueError, name):
+                            adopter.plan(source, host, profile)
+                        self.assertEqual(sentinel.read_bytes(), b"HOST OWNED")
+                        self.assertEqual(list(host.iterdir()), [sentinel])
+            finally:
+                path.write_bytes(original)
+
+    def test_legal_upgrade_plan_preserves_host_notices_and_records(self):
+        host = self.host
+        self.put("ideas", self.example("idea"))
+        (host / "LICENSE").write_bytes((ROOT / "LICENSE").read_bytes())
+        (host / "PROVENISTEM-NOTICE.md").write_bytes(b"HOST OWNED NOTICE")
+        before = {p.relative_to(host): p.read_bytes()
+                  for p in host.rglob("*") if p.is_file()}
+        for profile in adopter.PROFILES:
+            with self.subTest(profile=profile):
+                result = adopter.plan(ROOT, host, profile)
+                actions = {e["path"]: e["action"] for e in result["entries"]}
+                self.assertFalse(result["writes"])
+                self.assertEqual(actions["LICENSE"], "SAME")
+                self.assertEqual(actions["PROVENISTEM-LICENSE.md"], "ADD")
+                self.assertEqual(actions["PROVENISTEM-NOTICE.md"], "REVIEW_LOCAL_DIFFERENCE")
+                self.assertEqual(before, {p.relative_to(host): p.read_bytes()
+                                          for p in host.rglob("*") if p.is_file()})
 
 if __name__ == "__main__":
     unittest.main()

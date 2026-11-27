@@ -52,6 +52,10 @@ Each walkthrough should show the selected source revision, the destination and
 its collision checks, and how the adopter reviews the result. Generated maps and
 other outputs follow the adopter's own publication policy.
 
+## Prospective license policy
+
+The root and portable MIT notices remain unchanged. The [package scope and installation notice](packages/provenistem/PROVENISTEM-NOTICE.md) schedules only one new optional module for [PolyForm Strict 1.0.0](packages/provenistem/PROVENISTEM-LICENSE.md) in an owner-authorized distribution. All prior MIT grants and all other current package code and documentation remain MIT-covered to the extent of rights held; the standard license text retains upstream terms. No review branch is an authorized release. See the [exact licensing scope](licensing/v0.0.2.7/operative-scope.json) and the [bounded provenance record](licensing/v0.0.2.7/README.md).
+
 ## Engineering ecosystem
 
 [Owner-approved six architectural laws](ENGINEERING-LAWS.md) apply to this product. Standalone operation and owner authority remain unchanged. The product has no mandatory coordination-tool dependency.

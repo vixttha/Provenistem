@@ -21,7 +21,7 @@
       "changed_in": [
         {
           "path": "packages/provenistem/tools/adopter.py",
-          "anchor": "PACKAGE_TOPLEVEL = (\"README.md\", \"LICENSE\", \"LIBRARY-AGENT-GUIDE.md\")"
+          "anchor": "PACKAGE_TOPLEVEL = (\"README.md\", \"LICENSE\", \"LIBRARY-AGENT-GUIDE.md\","
         }
       ],
       "implemented_in": [
@@ -122,6 +122,42 @@
         {
           "path": "packages/provenistem/tests/test_adopter_profiles.py",
           "anchor": "def test_auto_profile_rejects_present_incomplete_groups(self):"
+        }
+      ]
+    },
+    {
+      "id": "adoption-legal-notice-integrity",
+      "label": "Revision-bound legal notices and read-only upgrade planning",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Prospective licensing and adoption"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/license_guard.py",
+          "anchor": "def verify_notices(source, expected):"
+        },
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "verify_notices(source, LICENSE_DIGESTS)"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_legal_notice_tampering_blocks_all_profiles(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_legal_upgrade_plan_preserves_host_notices_and_records(self):"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "verify_notices(source, LICENSE_DIGESTS)"
         }
       ]
     }
