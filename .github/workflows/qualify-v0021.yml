@@ -1,0 +1,78 @@
+name: v0.0.2.1 exact candidate qualification
+on:
+  push:
+    branches: [audit/v0.0.2.1]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualify:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Validate exact product tree
+        shell: bash
+        run: |
+          git diff --exit-code 4b5eef21e5b33e5c31f1794dbb9bdeb8fb1c4836 HEAD -- packages/provenistem audit
+          git fetch --no-tags origin refs/pull/21/merge
+          test "$(git rev-parse FETCH_HEAD)" = 9695e0720726e4d424831ef746f0da5bc99f9b0a
+          test "$(git rev-parse FETCH_HEAD^1)" = f676059bf15e466d18a0d49c317920c8c1160418
+          test "$(git rev-parse FETCH_HEAD^2)" = 4b5eef21e5b33e5c31f1794dbb9bdeb8fb1c4836
+          git diff --exit-code FETCH_HEAD 4b5eef21e5b33e5c31f1794dbb9bdeb8fb1c4836
+          cd packages/provenistem
+          python tools/library.py check --expect-empty
+          python -m unittest discover -s tests -v
+          python ../../audit/verify_adoption_copy.py
+      - name: Replay mixed discussion on synthetic populated catalog
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib, shutil, subprocess, sys, tempfile
+          source = pathlib.Path("packages/provenistem").resolve()
+          with tempfile.TemporaryDirectory() as tmp:
+              root = pathlib.Path(tmp)/"library"
+              shutil.copytree(source,root)
+              idea = json.loads((root/"templates/idea.example.json").read_text(encoding="utf-8"))
+              idea.update(title="Issue-specific reuse of verified evidence",summary="Reuse only qualifying exact-revision evidence; owner approved this limitation.",lifecycle_status="adopted",implementation_status="planned",decision={"decided_by":"owner","decided_at":"2026-11-25T00:00:00Z","reason":"Exact revision only."})
+              other = {**idea,"id":"IDEA-000002","title":"Private execution policy research","summary":"Explore possible private execution; no implementation permission.","lifecycle_status":"exploring","implementation_status":"not_planned","related_ideas":[idea["id"]]}
+              del other["decision"]
+              feat = json.loads((root/"templates/feature.example.json").read_text(encoding="utf-8"))
+              feat.update(title="Exact-revision qualifying evidence reuse",idea_ids=[idea["id"]])
+              for section, row in [("ideas",idea),("ideas",other),("features",feat)]:
+                  (root/section/"records"/(row["id"]+".json")).write_text(json.dumps(row),encoding="utf-8")
+              def snapshot():
+                  return {p.relative_to(root).as_posix():p.read_bytes() for p in root.rglob("*") if p.is_file()}
+              before=snapshot()
+              def query(q):
+                  p=subprocess.run([sys.executable,str(root/"tools/library.py"),"reconcile","--title",q],cwd=root,capture_output=True,text=True,encoding="utf-8")
+                  assert p.returncode==0,p.stderr+p.stdout
+                  return json.loads(p.stdout)
+              a=query("  REUSE  OF VERIFIED EVIDENCE ")
+              assert a==query("reuse of verified evidence")
+              assert a["stale_indexes"]==["ideas","features"]
+              assert {m["id"]:m["match"] for m in a["matches"]}=={"IDEA-000001":"literal","IDEA-000002":"related","FEAT-000001":"related"}
+              assert next(m for m in a["matches"] if m["id"]=="IDEA-000001")["lifecycle_status"]=="adopted"
+              assert query("private execution")["matches"]
+              assert query("reuse any old evidence regardless of revision")["matches"]==[]
+              assert query("change brand name")["matches"]==[]
+              assert snapshot()==before
+              assert "owner review required" in a["scope"]
+              print("MIXED REPLAY: repeat literal and related IDs, adopted status, proposed feature, stale indexes, conflicting paraphrase/no-match, absent brand match, byte preservation PASS")
+              print("Human review remains required for conflicts, semantic equivalence, missing access, and routing; no automatic authority or branch creation tested or claimed.")
+          PY
+      - name: Check clean checkout
+        shell: bash
+        run: test -z "$(git status --porcelain)"
