@@ -481,8 +481,14 @@ def run(root, action):
     else:
         for kind, expected in views.items():
             path = root / kind / "INDEX.md"
-            if not path.is_file() or path.read_text(encoding="utf-8") != expected:
-                problems.append(f"{kind}/INDEX.md: stale or missing; run build")
+            try:
+                if not path.is_file() or path.read_text(encoding="utf-8") != expected:
+                    problems.append(f"{kind}/INDEX.md: stale or missing; run build")
+            except UnicodeDecodeError as exc:
+                problems.append(f"{kind}/INDEX.md: invalid UTF-8 at byte {exc.start}: "
+                                f"{exc.reason}; run build")
+            except OSError as exc:
+                problems.append(f"{kind}/INDEX.md: index read failed: {exc}")
     if problems:
         for issue in problems:
             print("FAIL:", issue)
