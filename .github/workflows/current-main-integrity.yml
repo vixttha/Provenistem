@@ -1,0 +1,71 @@
+name: Current main integrity audit
+on:
+  push:
+    branches: [audit/current-main-integrity]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integrity-probes:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Confirm package matches accepted main and run baseline
+        shell: bash
+        run: |
+          git diff --exit-code f676059bf15e466d18a0d49c317920c8c1160418 HEAD -- packages/provenistem
+          cd packages/provenistem
+          python tools/library.py check --expect-empty
+          python -m unittest discover -s tests -v
+      - name: Reproduce suspected integrity gaps in disposable fixtures
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib, shutil, subprocess, sys, tempfile
+          source = pathlib.Path("packages/provenistem").resolve()
+          def cli(script, *args):
+              return subprocess.run([sys.executable, str(source / "tools" / script), *map(str,args)], capture_output=True, text=True, encoding="utf-8")
+          with tempfile.TemporaryDirectory() as t:
+              root = pathlib.Path(t)
+              copy = root / "copy"
+              shutil.copytree(source, copy)
+              index = copy / "ideas" / "INDEX.md"
+              index.write_bytes(b"\xff")
+              before = index.read_bytes()
+              p = cli("library.py", "check", "--root", copy)
+              assert index.read_bytes() == before
+              print("INDEX_READ", json.dumps({"returncode":p.returncode,"traceback":"Traceback" in p.stderr,"diagnostic":p.stdout[:300]}))
+              assert p.returncode != 0 and "UnicodeDecodeError" in p.stderr and "Traceback" in p.stderr
+              host = root / "host"
+              host.mkdir()
+              (host / "ideas").write_text("preserve",encoding="utf-8")
+              p = cli("adopter.py", host)
+              d = json.loads(p.stdout)
+              print("INNER_ANCESTOR",json.dumps({"returncode":p.returncode,"status":d["status"],"ideas_add":sum(x["action"]=="ADD" and x["path"].startswith("ideas/") for x in d["entries"])}))
+              assert (host / "ideas").read_text(encoding="utf-8") == "preserve"
+              assert p.returncode == 0 and d["status"] == "EXISTING_DESTINATION" and any(x["action"]=="ADD" and x["path"].startswith("ideas/") for x in d["entries"])
+              incomplete = root / "incomplete"
+              shutil.copytree(source,incomplete)
+              (incomplete / "LICENSE").unlink()
+              p = cli("adopter.py",root/"missing", "--source",incomplete)
+              d = json.loads(p.stdout)
+              print("INCOMPLETE_SOURCE",json.dumps({"returncode":p.returncode,"status":d["status"],"license_present":any(x["path"]=="LICENSE" for x in d["entries"])}))
+              assert p.returncode == 0 and d["status"] == "NEW_DESTINATION" and not any(x["path"]=="LICENSE" for x in d["entries"])
+          print("All three known-defect reproductions succeeded; not a repair certification.")
+          PY
+      - name: Ensure checkout remains unchanged
+        shell: bash
+        run: test -z "$(git status --porcelain)"
