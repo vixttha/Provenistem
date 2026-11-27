@@ -39,3 +39,31 @@ The repeatable workflow can recreate those archive entries from their source pin
 
 Veraphify's [MIT license](LICENSE) and the imported Lydite [license](lib/LYDITE-LICENSE)
 apply to their respective files.
+
+## Issue #22 — canonical workspace migration
+
+The lowercase `veraphify` branch is preserved at its historical commit
+`574baa77833e00ef1b23b7b768c7abdbfece8a2e`. This candidate targets the
+canonical `Veraphify` branch; it never merges into product main. Use the exact
+branch name, especially on case-insensitive filesystems: check out a single
+ref rather than fetching both case variants into a local ref namespace.
+
+Forward checkpoint manifests: [v0.0.2.1](manifests/v0.0.2.1.json),
+[v0.0.2.2](manifests/v0.0.2.2.json), [v0.0.2.3](manifests/v0.0.2.3.json),
+[v0.0.2.4](manifests/v0.0.2.4.json). These are selected source-evidence maps,
+not exhaustive code graphs or proof that every mapped test ran; changed-in
+anchors locate source, not a chronological diff.
+
+The [durable pins](archive-pins.json) preserve graph, receipt, archive SHA-256,
+source revision and index implementation location. Original historical pins
+come from [run 44975416836](https://github.com/vixttha/Provenistem/actions/runs/44975416836/attempts/1),
+not from the new replay. The producer runs on pinned Linux dependencies; fresh
+Ubuntu and Windows jobs replay the generated archive without installing Graphify
+or cloning product source. Temporary CI artifact bytes can be reconstructed
+from the pinned inputs; replay does not imply indefinite artifact retention.
+
+[Runtime verification](scripts/verify-runtime.py) compares all five local
+runtime/license files against the approved upstream and the exact VIB bundle.
+The only adaptations are the CLI's relocated inspect-evidence import and
+the relocated handoff-profile import. No upstream upgrade or runtime logic
+change is included.

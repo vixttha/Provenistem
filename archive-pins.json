@@ -1,0 +1,16 @@
+{
+  "v0.0.1": {
+    "source": "5a689fbe3d6a6b26d77709889e28e1e02de363fc",
+    "graph_sha256": "2f6f9bee87bbddb33c3c317f7539b4fb2a40979da9d31a08c0d64d68f8b1526d",
+    "receipt_sha256": "fb4c0aff49e7528d1b7b8250d98cba57deca0a3359c680714783efdfdd4a0ccf",
+    "archive_sha256": "2b0db8a5b8d67e3c2e9095ec85d9a086ca8eb8e3dfdbd78c77f19a2cc406ea01",
+    "index_line": 144
+  },
+  "v0.0.2": {
+    "source": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+    "graph_sha256": "e37b1cbdbedb1ce97e9b7eb468adfb78ab4fd813f6b8530a18e7f8d4adc2996a",
+    "receipt_sha256": "248c2a57f46a070dd86c228b99a57168a95ec23e628ca463d12ec298ee9af85f",
+    "archive_sha256": "24137296a06652fe0134a4b645a497e65187377d11baa7fe53f7245d69938a31",
+    "index_line": 323
+  }
+}
