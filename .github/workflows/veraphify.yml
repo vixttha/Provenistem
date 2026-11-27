@@ -44,9 +44,9 @@ jobs:
         run: python scripts/verify-runtime.py
       - name: Build, replay, and verify six version archives
         run: bash scripts/build-archives.sh "$RUNNER_TEMP/graphify-kit/versions/v0.0.8" "$RUNNER_TEMP/provenistem-evidence"
-      - name: Check durable pins and collect new pin candidates
+      - name: Check all committed maps and durable pins
         run: |
-          python scripts/replay-archives.py "$RUNNER_TEMP/provenistem-evidence" --collect
+          python scripts/replay-archives.py "$RUNNER_TEMP/provenistem-evidence"
           test -z "$(git status --porcelain)"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -82,5 +82,5 @@ jobs:
       - name: Standalone replay without Graphify or product checkout
         shell: bash
         run: |
-          python scripts/replay-archives.py "$RUNNER_TEMP/provenistem-replay" --collect
+          python scripts/replay-archives.py "$RUNNER_TEMP/provenistem-replay"
           test -z "$(git status --porcelain)"
