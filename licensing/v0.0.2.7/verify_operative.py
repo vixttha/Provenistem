@@ -25,6 +25,7 @@ CHANGED = {
     "README.md", "audit/adoption-copy-evidence.json",
     "packages/provenistem/README.md", "packages/provenistem/docs/ADOPTION.md",
     "packages/provenistem/tests/test_adopter_profiles.py",
+    "packages/provenistem/tests/test_one_way_boundary.py",
     "packages/provenistem/tools/adopter.py",
 }
 

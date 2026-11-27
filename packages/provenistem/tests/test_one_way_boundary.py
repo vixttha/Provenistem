@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / "tools"
 ALLOWED = {
     "argparse", "json", "re", "decimal", "pathlib", "copy", "sys", "tempfile",
-    "unittest", "shutil", "stat", "check_idea_feature_library", "library"
+    "unittest", "shutil", "stat", "check_idea_feature_library", "library", "license_guard", "hashlib"
 }
 FORBIDDEN_ROOT = (
     "AGENTS.md", "GOVERNANCE-START.md", "governance", "src", "skills",
@@ -26,7 +26,7 @@ class OneWayBoundaryTests(unittest.TestCase):
         self.assertTrue((ROOT / "features/schema/v1/feature.schema.json").is_file())
 
     def test_no_upstream_imports_or_remote_write_helpers(self):
-        for tool in (TOOLS / "library.py", TOOLS / "adopter.py"):
+        for tool in (TOOLS / "library.py", TOOLS / "adopter.py", TOOLS / "license_guard.py"):
             if not tool.is_file():
                 continue  # Legacy adopters may not have the optional planner.
             source = tool.read_text(encoding="utf-8")
