@@ -1,0 +1,71 @@
+name: Explicit v0.0.2.8 regression-first proof
+on:
+  push:
+    branches: [review/v0.0.2.8-ci-lifecycle]
+permissions:
+  contents: read
+jobs:
+  red:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Observe expected regression failures before implementation
+        shell: bash
+        run: |
+          python - <<'PY'
+          import subprocess, sys
+          p = subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', 'audit', '-p', 'test_ci_lifecycle.py', '-v'], capture_output=True, text=True)
+          print(p.stdout)
+          print(p.stderr)
+          if p.returncode == 0 or 'test_workflow_separation' not in p.stderr or 'verify_current_licensing.py' not in p.stderr:
+              raise SystemExit('Expected RED did not occur')
+          print('EXPECTED_RED_OBSERVED')
+          PY
+  reproduce:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ce5f2d77c3f553d702718e27de82cd9e3ea3a178
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Explicitly requested historical verifier reproduction
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = ce5f2d77c3f553d702718e27de82cd9e3ea3a178
+          python licensing/v0.0.2.7/verify_operative.py
+          git config user.name "CI disposable fixture"
+          git config user.email "ci@example.invalid"
+          printf '\n<!-- ordinary development fixture -->\n' >> ENGINEERING-LAWS.md
+          git add ENGINEERING-LAWS.md
+          git commit -m "Disposable ordinary documentation change"
+          python - <<'PY'
+          import subprocess, sys
+          p = subprocess.run([sys.executable, 'licensing/v0.0.2.7/verify_operative.py'], capture_output=True, text=True)
+          print(p.stdout)
+          print(p.stderr)
+          if p.returncode == 0 or 'unexpected baseline change' not in p.stderr or 'ENGINEERING-LAWS.md' not in p.stderr:
+              raise SystemExit('Historical lifecycle reproduction failed')
+          print('HISTORICAL_LIFECYCLE_DEFECT_REPRODUCED')
+          PY
