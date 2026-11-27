@@ -266,6 +266,67 @@ class AdopterProfiles(unittest.TestCase):
                             path.rmdir()
             path.write_bytes(original)
 
+    def test_source_profiles_preserve_complete_copy_sets(self):
+        source = self.root / "source-profiles"
+        shutil.copytree(ROOT, source)
+        dest = self.root / "destination-profiles"
+        def planned(profile=None):
+            output = io.StringIO()
+            args = [str(dest), "--source", str(source)]
+            if profile is not None:
+                args.extend(["--profile", profile])
+            with contextlib.redirect_stdout(output):
+                code = adopter.main(args)
+            self.assertFalse(dest.exists())
+            result = json.loads(output.getvalue())
+            self.assertFalse(result["writes"])
+            return code, result
+
+        for profile, count in ((None, 30), ("full", 30),
+                               ("tools", 23), ("basic", 21)):
+            with self.subTest(profile=profile):
+                code, result = planned(profile)
+                self.assertEqual(code, 0)
+                self.assertEqual(result["status"], "NEW_DESTINATION")
+                entries = result["entries"]
+                self.assertEqual(len(entries), count)
+                self.assertTrue(all(e["action"] == "ADD" for e in entries))
+                paths = {e["path"] for e in entries}
+                self.assertIn("LICENSE", paths)
+                self.assertEqual(any(p.startswith("tools/") for p in paths), count >= 23)
+                self.assertEqual(any(p.startswith("tests/") for p in paths), count == 30)
+        shutil.rmtree(source / "tests")
+        self.assertEqual(len(planned()[1]["entries"]), 23)
+        code, result = planned("full")
+        self.assertEqual((code, result["status"]), (2, "BLOCKED"))
+        self.assertIn("tests/", result["error"])
+        self.assertNotIn("entries", result)
+        shutil.rmtree(source / "tools")
+        self.assertEqual(len(planned()[1]["entries"]), 21)
+        for profile in ("tools", "full"):
+            code, result = planned(profile)
+            self.assertEqual((code, result["status"]), (2, "BLOCKED"))
+            self.assertNotIn("entries", result)
+
+    def test_auto_profile_rejects_present_incomplete_groups(self):
+        source = self.root / "source-groups"
+        shutil.copytree(ROOT, source)
+        dest = self.root / "destination-groups"
+        shutil.rmtree(source / "tools")
+        # A test-bearing source must also contain the helper profile.
+        with self.assertRaisesRegex(ValueError, "tools/"):
+            adopter.plan(source, dest)
+        shutil.rmtree(source / "tests")
+        for group in ("tools", "tests"):
+            with self.subTest(group=group):
+                path = source / group
+                path.write_bytes(b"NOT A DIRECTORY")
+                with self.assertRaisesRegex(ValueError, "required source file"):
+                    adopter.plan(source, dest)
+                self.assertEqual(path.read_bytes(), b"NOT A DIRECTORY")
+                path.unlink()
+        self.assertFalse(dest.exists())
+
     def test_new_destination_below_file_is_blocked(self):
         parent = self.root / "host-file"
         parent.write_bytes(b"HOST")
