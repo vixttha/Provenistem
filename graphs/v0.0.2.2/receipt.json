@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "template_version": "v0.0.8",
+  "repository": "vixttha/Provenistem",
+  "source_commit": "bc7c0287ea62a72e6c5cc654fca61d1ac0c0de34",
+  "pull_request": null,
+  "scope": "feature-evidence",
+  "graphify_version": "0.9.109",
+  "graph_sha256": "2bbee1df62c87c5a47d00774cc73114c348fc36f0f4181fc1abca36886a19a22",
+  "nodes": 109,
+  "edges": 201,
+  "feature_links": {
+    "feature:adoption-copy-integrity": {
+      "documented_in": 3,
+      "changed_in": 1,
+      "tested_by": 4,
+      "implemented_in": 1
+    },
+    "feature:adoption-destination-ancestor": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 3,
+      "implemented_in": 1
+    },
+    "feature:adoption-intermediate-paths": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 3,
+      "implemented_in": 1
+    },
+    "feature:adoption-preflight": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:bounded-validation": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:catalog-reconciliation": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:decimal-identity": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 6,
+      "implemented_in": 3
+    },
+    "feature:duplicate-json-members": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 4,
+      "implemented_in": 4
+    },
+    "feature:evidence-status": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:generated-indexes": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:index-output-integrity": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 5,
+      "implemented_in": 1
+    },
+    "feature:linked-records": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:populated-adopter": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:record-validation": {
+      "documented_in": 1,
+      "changed_in": 1,
+      "tested_by": 1,
+      "implemented_in": 1
+    },
+    "feature:unicode-index-integrity": {
+      "documented_in": 1,
+      "changed_in": 2,
+      "tested_by": 5,
+      "implemented_in": 3
+    }
+  },
+  "source_files": [
+    "audit/verify_adoption_copy.py",
+    "packages/provenistem/LIBRARY-AGENT-GUIDE.md",
+    "packages/provenistem/README.md",
+    "packages/provenistem/docs/ADOPTION.md",
+    "packages/provenistem/docs/LIFECYCLE.md",
+    "packages/provenistem/tests/test_adopter_profiles.py",
+    "packages/provenistem/tests/test_library.py",
+    "packages/provenistem/tests/test_modularity_contract.py",
+    "packages/provenistem/tests/test_unicode_index_integrity.py",
+    "packages/provenistem/tests/test_v002_six_team_repairs.py",
+    "packages/provenistem/tools/adopter.py",
+    "packages/provenistem/tools/library.py"
+  ],
+  "source_sha256": {
+    "audit/verify_adoption_copy.py": "a8d5defc6438fa43e7d4baf93b226c65a5f07b59f1637e52589df5cbd1e0a5ce",
+    "packages/provenistem/LIBRARY-AGENT-GUIDE.md": "d409ae33a83a4bac9bbd8670e1493adca4fef84be3cb13c5ee16120764b766cb",
+    "packages/provenistem/README.md": "94a026477bf9568e259201f02d58415d4343460d0e1d931bf15eb9c901b5075c",
+    "packages/provenistem/docs/ADOPTION.md": "a520fe03fb6238eaa5eb5cd3b893f84bcc6909f20423f19bd2452e7d4814505e",
+    "packages/provenistem/docs/LIFECYCLE.md": "f4aaf437a2c9a1cd5f6fa7411652dbe325ec8743274d026f3ce9dc053a10cd13",
+    "packages/provenistem/tests/test_adopter_profiles.py": "d212f98745d5c4740e45dc5c1bc1f388041f2ee6518ea547ae3be0bc0b15ff0e",
+    "packages/provenistem/tests/test_library.py": "03958bb243a572756ec3c7c8054c467144c9ed96fa5249e21ab030ec8624c5fe",
+    "packages/provenistem/tests/test_modularity_contract.py": "acf473d6b0f282fb1a7b5e9523a27b12083163b31655e6dbb8cf40a806dc2c9e",
+    "packages/provenistem/tests/test_unicode_index_integrity.py": "d567013c0d894fa416003c610431b57dc73fe49b77a2978fbfbef72eed2edeab",
+    "packages/provenistem/tests/test_v002_six_team_repairs.py": "0c4b666b143f4ad804e642f42f35df447fff6cc15d37c0b21bc0ccdd54c814c9",
+    "packages/provenistem/tools/adopter.py": "494958b4496b8fd44730b3141590b51d7cf8c2f1eabd12fd54a1d46dd8070bce",
+    "packages/provenistem/tools/library.py": "ba0c9435d0003d29c777088063300ef0889ac8bea234fe74c542b9301f2b36a2"
+  },
+  "mcp_verified": true
+}

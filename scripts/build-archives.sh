@@ -23,7 +23,7 @@ git -C "$source_repo" init -q
 export GRAPHIFY_QUERY_LOG_DISABLE=1
 export PYTHONHASHSEED=0
 
-for version in v0.0.1 v0.0.2; do
+for version in v0.0.1 v0.0.2 v0.0.2.1 v0.0.2.2 v0.0.2.3 v0.0.2.4; do
   manifest="$workspace/manifests/$version.json"
   source="$(jq -er '.source_commit | select(test("^[a-f0-9]{40}$"))' "$manifest")"
   git -C "$source_repo" fetch -q --no-tags --depth=1 \
@@ -57,15 +57,14 @@ for version in v0.0.1 v0.0.2; do
     "$evidence/lookup.json" > /dev/null
   printf '%s verified at %s; index implementation %s:%s\n' "$version" "$source" "$source_path" "$source_line"
 
-  if [[ "$version" == v0.0.1 ]]; then
-    sha256sum "$archive"/*.json > "$source_repo/first-archive.sha256"
-  else
-    sha256sum -c "$source_repo/first-archive.sha256"
+  if [[ -f "$source_repo/prior-archives.sha256" ]]; then
+    sha256sum -c "$source_repo/prior-archives.sha256"
   fi
+  sha256sum "$archive"/*.json > "$source_repo/prior-archives.sha256"
 done
 
 (
   cd "$output"
-  find archive v0.0.1 v0.0.2 -type f -print0 \
+  find archive v0.0.1 v0.0.2 v0.0.2.1 v0.0.2.2 v0.0.2.3 v0.0.2.4 -type f -print0 \
     | sort -z | xargs -0 sha256sum | tee SHA256SUMS
 )

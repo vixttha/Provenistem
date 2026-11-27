@@ -1,0 +1,653 @@
+{
+  "repository": "vixttha/Provenistem",
+  "source_commit": "9f321b6142d77112f3f32b9d0d31e748a47a1915",
+  "title": "Provenistem v0.0.2.4 feature evidence",
+  "source_files": [
+    "audit/verify_adoption_copy.py",
+    "packages/provenistem/LIBRARY-AGENT-GUIDE.md",
+    "packages/provenistem/README.md",
+    "packages/provenistem/docs/ADOPTION.md",
+    "packages/provenistem/docs/LIFECYCLE.md",
+    "packages/provenistem/tests/test_adopter_profiles.py",
+    "packages/provenistem/tests/test_library.py",
+    "packages/provenistem/tests/test_modularity_contract.py",
+    "packages/provenistem/tests/test_unicode_index_integrity.py",
+    "packages/provenistem/tests/test_v002_six_team_repairs.py",
+    "packages/provenistem/tools/adopter.py",
+    "packages/provenistem/tools/library.py"
+  ],
+  "features": [
+    {
+      "id": "record-validation",
+      "label": "Validate canonical idea and feature records",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def read_records(root, section, schema):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def read_records(root, section, schema):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_examples_pass_schema(self):"
+        }
+      ]
+    },
+    {
+      "id": "linked-records",
+      "label": "Check links between features and ideas",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/LIFECYCLE.md",
+          "anchor": "## Canonical ownership"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if target not in ideas:"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if target not in ideas:"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_missing_idea_link_is_rejected(self):"
+        }
+      ]
+    },
+    {
+      "id": "generated-indexes",
+      "label": "Generate and check Markdown indexes",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def index(kind, rows):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def index(kind, rows):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_round_trip_indexes(self):"
+        }
+      ]
+    },
+    {
+      "id": "evidence-status",
+      "label": "Require evidence for verified feature status",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/LIFECYCLE.md",
+          "anchor": "## Delivery and testing"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if row.get(\"lifecycle_status\") == \"verified\":"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if row.get(\"lifecycle_status\") == \"verified\":"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_false_verified_feature_rejected(self):"
+        }
+      ]
+    },
+    {
+      "id": "adoption-preflight",
+      "label": "Preview an adoption or upgrade without writing",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Optional validation"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def plan(source, destination, profile=\"auto\"):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def plan(source, destination, profile=\"auto\"):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_no_clobber_plan_on_existing_host(self):"
+        }
+      ]
+    },
+    {
+      "id": "bounded-validation",
+      "label": "Reject unsupported or oversized validation inputs",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def within_depth(value, limit=MAX_JSON_DEPTH):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def within_depth(value, limit=MAX_JSON_DEPTH):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_red_parseable_nested_record_rejected_at_depth_limit(self):"
+        }
+      ]
+    },
+    {
+      "id": "populated-adopter",
+      "label": "Validate a populated adopter independently of the starter",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Host-local records"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def validate(root=ROOT):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def validate(root=ROOT):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_synthetic_populated_host_not_bound_to_default_counts(self):"
+        }
+      ]
+    },
+    {
+      "id": "unicode-index-integrity",
+      "label": "Reject malformed Unicode before either index write",
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def valid_unicode(value):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def read_records(root, section, schema):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def run(root, action):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_unpaired_title_surrogates_preserve_both_indexes(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_nested_values_and_keys_are_rejected_safely(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_valid_unicode_and_supplementary_pairs_round_trip(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_both_views_encoded_before_any_index_is_opened(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_combined_exact_decimal_and_unicode_record_loader(self):"
+        }
+      ],
+      "documented_in": [
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "\"\"\"Issue #11: malformed Unicode must never damage either derived index.\"\"\""
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "if not valid_unicode(row):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "encoded[kind] = content.encode(\"utf-8\", errors=\"strict\")"
+        }
+      ]
+    },
+    {
+      "id": "decimal-identity",
+      "label": "Exact bounded JSON decimal identity",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "### Exact numeric identity (forward repair)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "MAX_DECIMAL_EXPONENT = MAX_RECORD_BYTES"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def parse_decimal(literal):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def parse_json(text):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def json_identity(value):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_distinct_literals_through_record_loader(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_equivalent_literals_through_record_loader(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_bad_or_extreme_literals_are_normal_failures(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_keeps_existing_integer_contract(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_exact_decimal_identity_independent_of_arithmetic_context(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+          "anchor": "def test_schema_loader_rejects_nonfinite_or_extreme_literals(self):"
+        }
+      ]
+    },
+    {
+      "id": "duplicate-json-members",
+      "label": "Reject duplicate decoded JSON member names before index generation",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "### Duplicate JSON member rejection (forward repair)"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "object_pairs_hook=reject_duplicate_keys)"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def reject_duplicate_keys(pairs):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def parse_json(text):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def read_records(root, section, schema):"
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def run(root, action):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_duplicate_record_keys_in_both_orders(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_duplicate_nested_record_keys_in_both_orders(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_duplicate_parser_scope_and_safe_diagnostic(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_duplicate_schema_keys_are_rejected(self):"
+        }
+      ]
+    },
+    {
+      "id": "index-output-integrity",
+      "label": "Preflight and recover derived index updates on ordinary I/O failures",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "### Recoverable index output failures"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "problems.extend(replace_indexes(root, encoded))"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def replace_indexes(root, encoded):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_directory_at_either_index_preserves_other(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_second_index_replace_failure_rolls_back_first(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_missing_first_index_is_not_created_on_second_failure(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_second_stage_failure_preserves_both_indexes(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_rollback_failure_retains_previous_bytes(self):"
+        }
+      ]
+    },
+    {
+      "id": "index-read-integrity",
+      "label": "Report malformed or unreadable derived indexes without writes",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "### Read-only index diagnostics"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def run(root, action):"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "problems.append(f\"{kind}/INDEX.md: invalid UTF-8 at byte {exc.start}: \""
+        },
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "problems.append(f\"{kind}/INDEX.md: index read failed: {exc}\")"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_malformed_index_cli_check_is_read_only(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_index_read_errors_report_both_paths(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+          "anchor": "def test_missing_stale_and_valid_index_checks(self):"
+        }
+      ]
+    },
+    {
+      "id": "adoption-copy-integrity",
+      "label": "Self-contained basic and optional adoption profiles",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/README.md",
+          "anchor": "## Quick use (GitHub website only)"
+        },
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Zero-install copy"
+        },
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "## Optional validation"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "PACKAGE_TOPLEVEL = (\"README.md\", \"LICENSE\", \"LIBRARY-AGENT-GUIDE.md\")"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def candidates(source, profile=\"auto\"):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_documented_basic_copy_has_all_relative_links(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_planned_copy_contains_complete_portable_package(self):"
+        },
+        {
+          "path": "audit/verify_adoption_copy.py",
+          "anchor": "def verify_copied_installation(source):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_modularity_contract.py",
+          "anchor": "def test_no_authority_files_in_standalone_root(self):"
+        }
+      ]
+    },
+    {
+      "id": "adoption-destination-ancestor",
+      "label": "Reject blocked new adoption destinations before file actions",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "### Blocked destination ancestors"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "for parent in reversed(destination.parents):"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def plan(source, destination, profile=\"auto\"):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_new_destination_below_file_is_blocked(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_new_destination_below_missing_directories_is_available(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_no_clobber_plan_on_existing_host(self):"
+        }
+      ]
+    },
+    {
+      "id": "adoption-source-completeness",
+      "label": "Reject incomplete selected portable source profiles",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "### Complete source profiles"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "PACKAGE_BASIC_FILES = ("
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def candidates(source, profile=\"auto\"):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_incomplete_source_basic_inventory_is_blocked(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_incomplete_source_optional_inventory_is_blocked(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_source_profiles_preserve_complete_copy_sets(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_auto_profile_rejects_present_incomplete_groups(self):"
+        }
+      ]
+    },
+    {
+      "id": "catalog-reconciliation",
+      "label": "Read-only literal and related record reconciliation",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/LIBRARY-AGENT-GUIDE.md",
+          "anchor": "## Reconcile an evolving discussion before allocating IDs"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def reconcile(root, title):"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/library.py",
+          "anchor": "def reconcile(root, title):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_library.py",
+          "anchor": "def test_reconcile_populated_stale_catalog_is_read_only(self):"
+        }
+      ]
+    },
+    {
+      "id": "adoption-intermediate-paths",
+      "label": "Reject blocked paths inside existing adoption destinations",
+      "documented_in": [
+        {
+          "path": "packages/provenistem/docs/ADOPTION.md",
+          "anchor": "### Blocked destination ancestors"
+        }
+      ],
+      "changed_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "for part in relative.parts[:-1]:"
+        }
+      ],
+      "implemented_in": [
+        {
+          "path": "packages/provenistem/tools/adopter.py",
+          "anchor": "def plan(source, destination, profile=\"auto\"):"
+        }
+      ],
+      "tested_by": [
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_existing_destination_blocked_intermediates(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_existing_destination_missing_intermediates_allowed(self):"
+        },
+        {
+          "path": "packages/provenistem/tests/test_adopter_profiles.py",
+          "anchor": "def test_existing_destination_leaf_directory_conflict_unchanged(self):"
+        }
+      ]
+    }
+  ]
+}

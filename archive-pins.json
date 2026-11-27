@@ -1,0 +1,44 @@
+{
+  "v0.0.1": {
+    "archive_sha256": "2b0db8a5b8d67e3c2e9095ec85d9a086ca8eb8e3dfdbd78c77f19a2cc406ea01",
+    "graph_sha256": "2f6f9bee87bbddb33c3c317f7539b4fb2a40979da9d31a08c0d64d68f8b1526d",
+    "index_line": 144,
+    "receipt_sha256": "fb4c0aff49e7528d1b7b8250d98cba57deca0a3359c680714783efdfdd4a0ccf",
+    "source": "5a689fbe3d6a6b26d77709889e28e1e02de363fc"
+  },
+  "v0.0.2": {
+    "archive_sha256": "24137296a06652fe0134a4b645a497e65187377d11baa7fe53f7245d69938a31",
+    "graph_sha256": "e37b1cbdbedb1ce97e9b7eb468adfb78ab4fd813f6b8530a18e7f8d4adc2996a",
+    "index_line": 323,
+    "receipt_sha256": "248c2a57f46a070dd86c228b99a57168a95ec23e628ca463d12ec298ee9af85f",
+    "source": "e36fcd6d12633395e9b573228c0797ade9e775b0"
+  },
+  "v0.0.2.1": {
+    "archive_sha256": "bbe720c339256b35d5614bacd5a07daaa8f5c55050da174344ba0dfb41ee8e5e",
+    "graph_sha256": "2b5f56e1e9f151725b9d943dd3027cecd412409b981a2da1a06668e09c87fa1d",
+    "index_line": 385,
+    "receipt_sha256": "54aba989dab3c61f071b8ae4582c12f99181b9de7621952b304c353fc6c3111d",
+    "source": "0bacde8bcc8311fd3c08be371b4e76e524f35cd7"
+  },
+  "v0.0.2.2": {
+    "archive_sha256": "3cebb0664f7527f1055a0e87ac2707405aa69fa22e52e7327881291bf2cb936b",
+    "graph_sha256": "2bbee1df62c87c5a47d00774cc73114c348fc36f0f4181fc1abca36886a19a22",
+    "index_line": 385,
+    "receipt_sha256": "e710a0d71bbd024a1c008066d9151b3996c55a717b667dcf5fc5ff2d6a649405",
+    "source": "bc7c0287ea62a72e6c5cc654fca61d1ac0c0de34"
+  },
+  "v0.0.2.3": {
+    "archive_sha256": "17c2e9c5512fbb9dc6dd8790543d88948ead6d821ebc7d0d6664f07016ada888",
+    "graph_sha256": "f999d8c4fef4b457d4f98f5f6c8a882e8c1bfaa5bfc654c53882607cb99a8e23",
+    "index_line": 385,
+    "receipt_sha256": "e6b2283234e21e267595cb36d472ae9ddf41f76f1d082218d2ef04c8e7fed2bd",
+    "source": "5e1a60b99dc64b8618dff1de3acb25a89490fc7d"
+  },
+  "v0.0.2.4": {
+    "archive_sha256": "6fef08f4e6c4a25ed6a59125b62f0df961896b39e8965c29c5f09ef78bcf694b",
+    "graph_sha256": "f40d3326d473d553c0e23481316ad0dcbf54327bccde7e022c978f8bb529e5b2",
+    "index_line": 385,
+    "receipt_sha256": "549c6fae0c0cec318bbef0f92d0c232040eb1dbc6bd54baf0b1a62ab4a665237",
+    "source": "9f321b6142d77112f3f32b9d0d31e748a47a1915"
+  }
+}
