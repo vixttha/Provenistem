@@ -1,0 +1,327 @@
+{
+  "purpose": "Read-only technical evidence; not ownership or license authorization",
+  "base": "4b57d194e8f79351dd41a548e7c0a574c97ecb94",
+  "refs": [
+    {
+      "ref": "Provenistem",
+      "commit": "8c9647d1cd168642ba4dd3b2b5ec3045634d1bcb",
+      "notices": {
+        "LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+        "packages/provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "Veraphify",
+      "commit": "45d0d7a7bf55650d8f71cbfbf1fec656c99c319e",
+      "notices": {
+        "LICENSE": "1466aeaa07d9f7fd502ca697353b5feace5f4e5a",
+        "lib/LYDITE-LICENSE": "30e65839065c0ea88ca00a2de47d65de4313e154",
+        "provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "Version-Issues-Hub",
+      "commit": "962aa2260c97adebfe9d8a5921390ff89779c29a",
+      "notices": {
+        "VIB-LICENSE.md": "90abd0e6c64a135f42451762337a397bf27f4862",
+        "VIB-NOTICE.md": "70dd8710828a38118965be3ca8be32457d106789"
+      }
+    },
+    {
+      "ref": "main",
+      "commit": "4b57d194e8f79351dd41a548e7c0a574c97ecb94",
+      "notices": {
+        "LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+        "packages/provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "v0.0.1",
+      "commit": "5a689fbe3d6a6b26d77709889e28e1e02de363fc",
+      "notices": {
+        "LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+        "packages/provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "v0.0.2",
+      "commit": "e36fcd6d12633395e9b573228c0797ade9e775b0",
+      "notices": {
+        "LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+        "packages/provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "v0.0.2.1",
+      "commit": "0bacde8bcc8311fd3c08be371b4e76e524f35cd7",
+      "notices": {
+        "LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+        "packages/provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "v0.0.2.2",
+      "commit": "bc7c0287ea62a72e6c5cc654fca61d1ac0c0de34",
+      "notices": {
+        "LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+        "packages/provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "v0.0.2.3",
+      "commit": "5e1a60b99dc64b8618dff1de3acb25a89490fc7d",
+      "notices": {
+        "LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+        "packages/provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "v0.0.2.4",
+      "commit": "9f321b6142d77112f3f32b9d0d31e748a47a1915",
+      "notices": {
+        "LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+        "packages/provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "v0.0.2.6",
+      "commit": "4b57d194e8f79351dd41a548e7c0a574c97ecb94",
+      "notices": {
+        "LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+        "packages/provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    },
+    {
+      "ref": "veraphify",
+      "commit": "574baa77833e00ef1b23b7b768c7abdbfece8a2e",
+      "notices": {
+        "LICENSE": "1466aeaa07d9f7fd502ca697353b5feace5f4e5a",
+        "lib/LYDITE-LICENSE": "30e65839065c0ea88ca00a2de47d65de4313e154",
+        "provenistem/LICENSE": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+      }
+    }
+  ],
+  "main_inventory": [
+    {
+      "path": ".gitattributes",
+      "blob": "6313b56c57848efce05faa7aa7e901ccfc2886ea",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": ".github/workflows/adoption-copy-evidence.yml",
+      "blob": "145f0aadb28362abe01247426babc9f2372b687c",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": ".github/workflows/decimal-repair-evidence.yml",
+      "blob": "2125e656094733a1ab15e72783b7e42a79ee021e",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": ".github/workflows/engineering-laws.yml",
+      "blob": "004f0a930ed77f98fee1b0c5403ee739ecee1b5c",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": ".github/workflows/unicode-index-evidence.yml",
+      "blob": "20ea34973da9d2062d6950bc4b72d6950eeccea0",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": ".github/workflows/validate.yml",
+      "blob": "0fc24e4b4ec33eb504bdf32a85cf3af0272c2861",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "ENGINEERING-LAWS.md",
+      "blob": "4905f8ba729afe95128aa718a5e998ff34fdafa7",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": "LICENSE",
+      "blob": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "README.md",
+      "blob": "6360a22d00bd5ce95e2c3b801ddc4af962095d3f",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "audit/adoption-copy-evidence.json",
+      "blob": "14da8da5d8389d249b449165f2c776237552b8b3",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": "audit/decimal-identity-evidence.json",
+      "blob": "ff435902d3d0b5ca2dd80b78e191d2712aa1023c",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": "audit/unicode-index-evidence.json",
+      "blob": "40b326218d388de3bf7eba12c8b67844c31e41d2",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": "audit/verify_adoption_copy.py",
+      "blob": "8395f042230692518b09c0ccb08ac65e4e559d9d",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": "packages/provenistem/LIBRARY-AGENT-GUIDE.md",
+      "blob": "ec81ba720cdc1633574b70be87e0de65609358d6",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/LICENSE",
+      "blob": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/README.md",
+      "blob": "40b5ebd1dc335ceeeee1c2bb8c58cf699a42ba18",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/docs/ADOPTION.md",
+      "blob": "dd8d5749f448e2a5d569218e706a92b0de3eae14",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/docs/ISOLATION.md",
+      "blob": "6152cc8e1e9591c5ba65cab198502988f9edaddc",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/docs/LIFECYCLE.md",
+      "blob": "e3a35fe1f43fe6167892cc341813d6e1c7aba7bc",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/docs/ONE-WAY-BOUNDARY.md",
+      "blob": "463911417c25411877ff7646da49a2c09bfa086e",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/docs/PORTABILITY-AND-MODULE-CONTRACT.json",
+      "blob": "535a1b3308ecebe3b441de7eb5c40769ddcae24f",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/docs/PORTABILITY-AND-MODULE-CONTRACT.md",
+      "blob": "15d2f3bb4881ac33f667cdbdb2e82b262f31a564",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/docs/PRODUCT-SCOPE-LOCK.md",
+      "blob": "c56489a9474e31f097ca5adfcac9cf53059a9d38",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/docs/PROVENANCE.md",
+      "blob": "3a29419d40dc0203bc249da3156bf2b87f524c3f",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/features/INDEX.md",
+      "blob": "44d5387969b7c73996d2eb92b63bcbf8a1e5a80d",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/features/README.md",
+      "blob": "8d755b25537f5e4bb3f5343398cfe280359aacc1",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/features/records/.gitkeep",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/features/schema/v1/feature.schema.json",
+      "blob": "7c296670856fe1f90787bb7e86093098fd8e635a",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/ideas/INDEX.md",
+      "blob": "7a03ca82e3f3e263a120e70466b468962cd1c162",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/ideas/README.md",
+      "blob": "a95e1a3e4c5b5a94fdc7d2d9465baeafdadf7e77",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/ideas/records/.gitkeep",
+      "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/ideas/schema/v1/idea.schema.json",
+      "blob": "bbc4cb327a570632f65d0242bde3134aff210688",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/templates/feature.example.json",
+      "blob": "ebd8e968acd10e68503e2a3fb1e2d0bf89625e51",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/templates/idea.example.json",
+      "blob": "7bf5fca7557a705d7ce8f2c55149d1c64c5200d5",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/tests/test_adopter_profiles.py",
+      "blob": "23fcdcea7a84cffd8c2db4533277cdf98de4d953",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/tests/test_hardening.py",
+      "blob": "32d773503a90b15e41efb352807e2fb0452fd372",
+      "origin_class": "unchanged_public_import"
+    },
+    {
+      "path": "packages/provenistem/tests/test_library.py",
+      "blob": "50033ede76fcb360ddef64edc24a51d3da37ac5b",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/tests/test_modularity_contract.py",
+      "blob": "a68799a752aa6bb63e75b13a10368516bb18365b",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/tests/test_one_way_boundary.py",
+      "blob": "63e2ccd298f99aa122007240a31db824a34aaa90",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/tests/test_unicode_index_integrity.py",
+      "blob": "c1687995db3d379be08330b48f3ded1e64b93735",
+      "origin_class": "added_since_import"
+    },
+    {
+      "path": "packages/provenistem/tests/test_v002_six_team_repairs.py",
+      "blob": "0df92652ae98f7d592947b4f657670fb209e59a3",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/tools/adopter.py",
+      "blob": "2a1df4279cc6aaf9afa875fb15f72eea366d7f6e",
+      "origin_class": "modified_since_import"
+    },
+    {
+      "path": "packages/provenistem/tools/library.py",
+      "blob": "d4bd958c16c2f07ac7441c3c5789143ec39f93d5",
+      "origin_class": "modified_since_import"
+    }
+  ],
+  "expected_profiles": {
+    "basic": 21,
+    "tools": 23,
+    "full": 30
+  },
+  "mit_blob": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1"
+}

@@ -1,0 +1,29 @@
+{
+  "status": "REVIEW_ONLY",
+  "operative": false,
+  "baseline": "4b57d194e8f79351dd41a548e7c0a574c97ecb94",
+  "mit_notice_blob": "2fca5f35039b9b1eb3c3d193219411a9cf0765f1",
+  "polyform_license_blob": "90abd0e6c64a135f42451762337a397bf27f4862",
+  "prospective_path_allowlist": [
+    "tools/adopter.py",
+    "tools/library.py",
+    "tests/test_adopter_profiles.py",
+    "tests/test_hardening.py",
+    "tests/test_library.py",
+    "tests/test_modularity_contract.py",
+    "tests/test_one_way_boundary.py",
+    "tests/test_unicode_index_integrity.py",
+    "tests/test_v002_six_team_repairs.py"
+  ],
+  "approved_additions": [],
+  "excluded": [
+    "all prior MIT grants and baseline content",
+    "shared engineering laws",
+    "adopter records and generated indexes",
+    "external dependencies and sibling workspaces",
+    "trademarks and brand assets"
+  ],
+  "owner_declaration": "PENDING",
+  "commercial_clearance": "SEPARATE_DEFERRED_GATE",
+  "distribution": "NOT_AUTHORIZED"
+}
