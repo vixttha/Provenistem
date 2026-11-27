@@ -34,6 +34,10 @@ No GitHub Actions workflow, runner configuration, release authorization, or deve
 
 The optional builder preflights both output paths, stages new bytes and prior copies in their respective directories, then replaces each index. A recoverable replacement failure triggers rollback of earlier replacements; if rollback itself fails, the diagnostic names the retained recovery directory and previous copy (or reports that the index was originally absent). Stop and reconcile manually in that case. No canonical records are changed. Run builds only in an isolated catalog without concurrent writers or readers requiring a consistent two-file snapshot. Individual replacements are not a multi-file atomic transaction, and a crash, power loss or failed rollback can still require manual recovery.
 
+### Read-only index diagnostics
+
+The optional `check` command reports stale, missing, malformed UTF-8 or unreadable generated indexes with the affected relative path and a nonzero result, without modifying either view or any canonical record. It reports failures in both views in a single check when possible. Resolve access or filesystem problems before attempting an authorized `build`; malformed generated text can be regenerated from valid canonical records. Existing build staging and rollback rules remain in effect. `reconcile` remains a read-only advisory search and flags stale or unreadable indexes.
+
 ## One-way Governance isolation
 
 [The interoperability boundary](docs/ONE-WAY-BOUNDARY.md) allows Governance-Branch to *offer* Provenistem as an opt-in, host-owned module, but forbids mandatory dependencies, upstream mutations, silent installation, schema conversion and overwriting canonical `ideas/` or `features/` paths. The adapter is a future design, not a shipped integration.
