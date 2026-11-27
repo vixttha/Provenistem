@@ -12,13 +12,17 @@ Status: review only; no operative terms, release or installation authorized.
 - Preserve all applicable prior MIT permissions, including engineering laws; [OSI MIT text](https://opensource.org/license/mit). [Official PolyForm Strict](https://polyformproject.org/licenses/strict/1.0.0) text matches VIB's exact blob. [US Copyright Office guidance](https://www.copyright.gov/newsnet/2025/1060.html) distinguishes human expressive contributions from mere prompts. Patent, employment, contributor, third-party, AI copyrightability and commercial/trademark questions are not disproven.
 - Scope proposal: future original licensable increments in the nine enumerated helper/test paths only. Current approved restrictive additions: zero. Existing MIT-covered bytes are not converted by this draft. Extension to other paths requires explicit scope review. This is intentionally narrower than the VIB proposal because the entire current Provenistem foundation was already published under MIT.
 
-## Owner declaration — pending, not signed
+## Owner declaration — accepted 2026-11-27
 
-Proposed for actual owner confirmation: I directed the design and AI-assisted development of Provenistem; to the best of my knowledge I have identified imported material and contributor/employer or other third-party restrictions known to me, and will authorize terms only for rights actually held. I accept the bounded provenance audit and its stated residual uncertainty for engineering review; no claim of absolute ownership or legal clearance. I preserve all prior grants and will investigate any later concrete rights finding. Commercial clearance remains separate.
+The owner explicitly accepted the following declaration in the project conversation; see [decision receipt](https://github.com/vixttha/Provenistem/issues/8#issuecomment-7228966383).
+
+> I directed the design and AI-assisted development of Provenistem. To the best of my knowledge, I have disclosed known third-party materials and rights restrictions. I accept the bounded provenance audit and its documented residual uncertainty. I authorize prospective PolyForm Strict 1.0.0 licensing only for rights actually held, preserving previous MIT grants and supplemental unchanged installation permissions. Commercial legal clearance remains separate.
+
+This records bounded engineering acceptance, not an independently signed instrument or certification of title. No activation, distribution or merge authorization is inferred.
 
 ## Approval and activation sequence
 
-1. Record the actual product-specific declaration and residual-uncertainty disposition. Review exact scope and notice; preserve the existing MIT baseline.
+1. Product-specific declaration and residual-uncertainty disposition recorded. Review exact scope and notice; preserve the existing MIT baseline.
 2. Owner explicitly authorizes a separate activation candidate and exact rights-cleared additions. Replace the REVIEW_ONLY notice with approved terms only then, identify exact blobs and notices in an independently owner-approved distribution manifest. Do not treat a Git commit or reviewer as proof of rights.
 3. For an activated package retain LICENSE and add PROVENISTEM-LICENSE.md and PROVENISTEM-NOTICE.md; include the approved rights schedule in PROVENISTEM-NOTICE.md or an explicitly inventoried companion file. All profiles carry the same legal inventory even if no optional tools copied. If only the two legal files are added, proposed blank counts are 23/25/32. No host root LICENSE overwrite, no automatic installer or activation. Ensure the draft files are never mistaken for an authorized package.
 4. Qualify the actual activated source and manifest on public Ubuntu/Windows, with exact external pins for both new legal files, historical MIT copies, missing/altered/review-only notice refusal, host conflicts, byte preservation, explicit upgrades and full portable regression suites. This review branch tests only the draft preview and existing MIT package, not a future approved release.
@@ -26,4 +30,4 @@ Proposed for actual owner confirmation: I directed the design and AI-assisted de
 
 ## Technical verification
 
-The isolated verification checks all original blobs against the baseline, every previously observed notice pin, the official Strict Git blob, inactive scope, the exact proposed legal pair, three simulated package layouts, missing/changed/wrong-type pair rejection and host-conflict preservation. It refuses authorization for a draft even when its bytes match. No product runtime change; no new mandatory dependency. The preview is not a real adopter or distribution. Passing tests are technical evidence, not legal-title clearance.
+The isolated verification checks both committed and working-tree bytes for all original blobs against the baseline, every previously observed notice pin, the official Strict Git blob, inactive scope, the exact proposed legal pair, three simulated package layouts, missing/changed/wrong-type pair rejection and host-conflict preservation. It refuses authorization for a draft even when its bytes match. No product runtime change; no new mandatory dependency. The preview is not a real adopter or distribution. Passing tests are technical evidence, not legal-title clearance.

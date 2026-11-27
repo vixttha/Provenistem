@@ -9,8 +9,6 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[2]
 DRAFT = ROOT / "licensing/v0.0.2.7"
 SOURCE = ROOT / "packages/provenistem"
-sys.path.insert(0, str(SOURCE / "tools"))
-import adopter
 M = json.loads((DRAFT / "baseline-pins.json").read_text(encoding="utf-8"))
 S = json.loads((DRAFT / "scope.json").read_text(encoding="utf-8"))
 PAIR = ("PROVENISTEM-LICENSE.md", "PROVENISTEM-NOTICE.md")
@@ -45,12 +43,22 @@ def reject(fn, msg):
 
 def main():
     require(S["status"] == "REVIEW_ONLY" and not S["operative"]
-            and S["approved_additions"] == [] and S["owner_declaration"] == "PENDING",
+            and S["approved_additions"] == [] and S["owner_declaration"] == "ACCEPTED"
+            and S["owner_declaration_receipt"] == "https://github.com/vixttha/Provenistem/issues/8#issuecomment-7228966383",
             "scope activated")
     require(S["baseline"] == M["base"], "baseline mismatch")
+    for name in ("baseline-pins.json", "scope.json"):
+        require((DRAFT / name).read_bytes() == git("show", "HEAD:licensing/v0.0.2.7/" + name),
+                "changed review manifest: " + name)
     for row in M["main_inventory"]:
         require(git("rev-parse", "HEAD:" + row["path"]).decode().strip() == row["blob"],
                 "changed baseline: " + row["path"])
+        path = ROOT / row["path"]
+        require(path.is_file() and not path.is_symlink()
+                and path.read_bytes() == git("show", "HEAD:" + row["path"]),
+                "changed working-tree baseline: " + row["path"])
+    sys.path.insert(0, str(SOURCE / "tools"))
+    import adopter
     for row in M["refs"]:
         subprocess.run(["git","fetch","--no-tags","--depth=1","origin",row["commit"]],
                        cwd=ROOT, check=True)

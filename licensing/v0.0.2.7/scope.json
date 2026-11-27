@@ -23,7 +23,8 @@
     "external dependencies and sibling workspaces",
     "trademarks and brand assets"
   ],
-  "owner_declaration": "PENDING",
+  "owner_declaration": "ACCEPTED",
   "commercial_clearance": "SEPARATE_DEFERRED_GATE",
-  "distribution": "NOT_AUTHORIZED"
+  "distribution": "NOT_AUTHORIZED",
+  "owner_declaration_receipt": "https://github.com/vixttha/Provenistem/issues/8#issuecomment-7228966383"
 }
