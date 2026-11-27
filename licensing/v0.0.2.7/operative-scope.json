@@ -1,0 +1,38 @@
+{
+  "schema": "provenistem/prospective-licensing/v1",
+  "status": "CANDIDATE_AWAITING_FINAL_OWNER_APPROVAL",
+  "effect": "ONLY_OWNER_APPROVED_INTEGRATION_AND_AUTHORIZED_DISTRIBUTION",
+  "mit_baseline": "4b57d194e8f79351dd41a548e7c0a574c97ecb94",
+  "owner_declaration_receipt": "https://github.com/vixttha/Provenistem/issues/8#issuecomment-7228966383",
+  "previous_review_commit": "2931c0742e83aca101f475b5afbffdc7fd9a8692",
+  "scheduled_restricted_additions": [
+    {
+      "path": "packages/provenistem/tools/license_guard.py",
+      "origin_commit": "bae5899a180ae52e05c896d758d01967e0d28a87",
+      "git_blob": "7aff9c547bc2a8c529346a5ada90b538ba9480cb",
+      "sha256": "50b0d06b0ec8e6e92e85e6d9ed256d9ffdd599b3fdf8ab2962585ad7fa4b80bf",
+      "license": "PolyForm-Strict-1.0.0",
+      "rights": "original protectable expression only, to extent rights held; exact scope subject to final owner acceptance"
+    }
+  ],
+  "license_sha256": {
+    "LICENSE": "c12fd1b8185dd55dc131bce9529719650d928b3b2d92016d721ff8258e083c93",
+    "PROVENISTEM-LICENSE.md": "9eb48619fbc193ab7bb327b090cfcc703000265b83e670f81f231d0b1c43c56e",
+    "PROVENISTEM-NOTICE.md": "65fb104fc08c63534e4366ceadca61fe79aa7b9ba3ecfc787ba8b4ffb4013255"
+  },
+  "baseline_changes_retained_under_mit": [
+    "README.md",
+    "audit/adoption-copy-evidence.json",
+    "packages/provenistem/README.md",
+    "packages/provenistem/docs/ADOPTION.md",
+    "packages/provenistem/tests/test_adopter_profiles.py",
+    "packages/provenistem/tools/adopter.py"
+  ],
+  "expected_profiles": {
+    "basic": 23,
+    "tools": 26,
+    "full": 33
+  },
+  "commercial_clearance": "SEPARATE_DEFERRED_GATE",
+  "distribution": "NOT_AUTHORIZED_BY_CANDIDATE"
+}
