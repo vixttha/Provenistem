@@ -492,14 +492,70 @@ def run(root, action):
     return 0
 
 
+def reconcile(root, title):
+    """Read-only literal candidate search; not semantic conflict detection."""
+    query = " ".join(title.casefold().split())
+    if not query:
+        print("FAIL: reconciliation title must not be empty")
+        return 1
+    problems, ideas, feats = validate(root)
+    if problems:
+        for issue in problems:
+            print("FAIL:", issue)
+        return 1
+    rows = {**ideas, **feats}
+    def normalized(value):
+        return " ".join(value.casefold().split())
+    matches = {ident for ident, row in rows.items()
+               if query in normalized(row["title"]) or
+               query in normalized(row["summary"])}
+    links = {ident: set(row.get("related_ideas", []) + row.get("idea_ids", []))
+             for ident, row in rows.items()}
+    related = set()
+    for ident, targets in links.items():
+        if ident in matches:
+            related.update(targets)
+        if targets & matches:
+            related.add(ident)
+    stale = []
+    for kind, records in (("ideas", ideas), ("features", feats)):
+        path = root / kind / "INDEX.md"
+        try:
+            if not path.is_file() or path.read_text(encoding="utf-8") != index(kind, records):
+                stale.append(kind)
+        except (OSError, UnicodeError):
+            stale.append(kind)
+    result = {
+        "scope": "literal candidates only; owner review required",
+        "stale_indexes": stale,
+        "matches": [
+            {"id": ident, "match": "literal" if ident in matches else "related",
+             "title": rows[ident]["title"],
+             "lifecycle_status": rows[ident]["lifecycle_status"],
+             "implementation_status": rows[ident]["implementation_status"],
+             "testing_status": rows[ident]["testing"]["status"]}
+            for ident in sorted(matches | related)
+        ],
+    }
+    print(json.dumps(result, ensure_ascii=True, indent=2))
+    return 0
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["check", "build"])
+    parser.add_argument("action", choices=["check", "build", "reconcile"])
     parser.add_argument("--root", type=Path, default=ROOT,
                         help="Existing host-local library root (no writes for check)")
     parser.add_argument("--expect-empty", action="store_true",
                         help="Check that a starter has zero canonical records")
+    parser.add_argument("--title", help="Literal candidate query for reconcile only")
     args = parser.parse_args()
+    if args.action == "reconcile":
+        if args.title is None or args.expect_empty:
+            parser.error("reconcile requires --title and does not accept --expect-empty")
+        raise SystemExit(reconcile(args.root.absolute(), args.title))
+    if args.title is not None:
+        parser.error("--title requires reconcile")
     root = args.root.absolute()
     if args.expect_empty:
         problems, ideas, feats = validate(root)

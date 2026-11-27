@@ -1,5 +1,8 @@
 """Offline standard-library regression tests for the optional template."""
 import copy
+import contextlib
+import io
+import subprocess
 import json
 import tempfile
 import unittest
@@ -50,6 +53,45 @@ class LibraryTemplateTests(unittest.TestCase):
         self.assertEqual(library.run(self.root, "build"), 0)
         self.assertEqual(library.run(self.root, "check"), 0)
         self.assertIn(idea["title"], (self.root / "ideas/INDEX.md").read_text())
+
+    def test_reconcile_populated_stale_catalog_is_read_only(self):
+        idea = example("idea")
+        idea["title"] = "Preserve Project Progress"
+        feature = example("feature")
+        feature["idea_ids"] = [idea["id"]]
+        self.write("ideas", idea)
+        self.write("features", feature)
+        before = {p.relative_to(self.root): p.read_bytes()
+                  for p in self.root.rglob("*") if p.is_file()}
+        for _ in range(2):
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output):
+                self.assertEqual(library.reconcile(self.root, "  PRESERVE  project progress "), 0)
+            result = json.loads(output.getvalue())
+            self.assertEqual(result["stale_indexes"], ["ideas", "features"])
+            self.assertEqual({x["id"]: x["match"] for x in result["matches"]},
+                             {idea["id"]: "literal", feature["id"]: "related"})
+        after = {p.relative_to(self.root): p.read_bytes()
+                 for p in self.root.rglob("*") if p.is_file()}
+        self.assertEqual(before, after)
+
+    def test_reconcile_invalid_catalog_and_empty_query_fail_closed(self):
+        self.write("features", {**example("feature"), "idea_ids": ["IDEA-999999"]})
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(library.reconcile(self.root, "example"), 1)
+            self.assertEqual(library.reconcile(self.root, " "), 1)
+
+    def test_reconcile_cli_no_match_is_not_acceptance(self):
+        self.write("ideas", example("idea"))
+        self.assertEqual(library.run(self.root, "build"), 0)
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "tools/library.py"), "reconcile",
+             "--root", str(self.root), "--title", "nonexistent literal"],
+            capture_output=True, text=True, check=True)
+        report = json.loads(result.stdout)
+        self.assertEqual(report["matches"], [])
+        self.assertEqual(report["stale_indexes"], [])
+        self.assertIn("owner review required", report["scope"])
 
     def test_stale_index_is_rejected(self):
         self.write("ideas", example("idea"))
