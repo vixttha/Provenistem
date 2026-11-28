@@ -494,7 +494,8 @@ def run(root, action):
         encoded = {}
         for kind, rows in records.items():
             try:
-                encoded[kind] = index(kind, rows).encode("utf-8", errors="strict")
+                content = index(kind, rows)
+                encoded[kind] = content.encode("utf-8", errors="strict")
             except UnicodeEncodeError:
                 print(f"FAIL: {kind}/INDEX.md: invalid Unicode (unpaired surrogate)")
                 return 1
