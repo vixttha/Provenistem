@@ -194,6 +194,10 @@ class LibraryTemplateTests(unittest.TestCase):
                 (self.root / "ideas/records" / (ident + ".json")).unlink()
 
     def test_navigation_empty_indexes_are_unchanged(self):
+        # Use actual distributed LF bytes, not platform-default write_text newlines.
+        for section in ("ideas", "features"):
+            (self.root / section / "INDEX.md").write_bytes(
+                (ROOT / section / "INDEX.md").read_bytes())
         before = self.navigation_snapshot()
         self.assertEqual(library.run(self.root, "build"), 0)
         self.assertEqual(self.navigation_snapshot(), before)
