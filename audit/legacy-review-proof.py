@@ -51,3 +51,24 @@ for label, relative, before, after, command, diagnostic in CASES:
 if subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT):
     raise RuntimeError("proof checkout not clean")
 print("REVIEW_REGRESSION_PROOF_PASS", MODE)
+
+# One-time provenance check: independently generate the seeded golden bytes
+# with the exact pinned historical library, in a disposable fixture only.
+import json
+import tempfile
+from verify_legacy_upgrade import BASE, BASE_TREE, LEGACY_INDEXES, materialize
+with tempfile.TemporaryDirectory() as scratch:
+    fixture = Path(scratch) / "legacy"
+    materialize(BASE, BASE_TREE, fixture)
+    for section, kind in (("ideas", "idea"), ("features", "feature")):
+        record = json.loads((fixture / "templates" / (kind + ".example.json")).read_text(encoding="utf-8"))
+        if kind == "feature":
+            record["idea_ids"] = ["IDEA-000001"]
+        (fixture / section / "records" / (record["id"] + ".json")).write_bytes(
+            (json.dumps(record, indent=2) + "\n").encode("utf-8"))
+    subprocess.run([PYTHON, str(fixture / "tools/library.py"), "build", "--root", str(fixture)],
+                   cwd=fixture, env=ENV, timeout=90, check=True)
+    for relative, expected in LEGACY_INDEXES.items():
+        if (fixture / relative).read_bytes() != expected:
+            raise RuntimeError("golden bytes differ from pinned historical renderer: " + relative)
+    print("PINNED_RENDERER_GOLDEN_BYTES_PASS")

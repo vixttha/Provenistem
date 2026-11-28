@@ -132,7 +132,21 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn("ref: " + FROZEN, historical)
         self.assertIn("git rev-parse HEAD", historical)
         self.assertNotIn("verify_operative.py", active)
-        self.assertIn("python audit/verify_legacy_upgrade.py", active)
+        # Match the actual unconditional step in the portable-package job, not a comment.
+        # Deliberately enforce the small, existing block-style workflow contract.
+        self.assertRegex(active, r"(?m)^  portable-package:\s*$")
+        job = re.search(r"(?ms)^  portable-package:[ \t]*\n(.*?)(?=^  \S|\Z)", active)
+        self.assertIsNotNone(job, "portable-package job missing")
+        steps = re.search(r"(?ms)^    steps:[ \t]*\n(.*?)(?=^    \S|\Z)", job.group(1))
+        self.assertIsNotNone(steps, "portable-package steps missing")
+        blocks = re.split(r"(?m)^      - ", steps.group(1))[1:]
+        required = (
+            "name: Verify current compatibility with exact legacy MIT input\n"
+            "        working-directory: .\n"
+            "        run: python audit/verify_legacy_upgrade.py"
+        )
+        self.assertEqual(sum(block.rstrip() == required for block in blocks), 1,
+                         "legacy upgrade executable step missing or changed")
         self.assertTrue((ROOT / "audit/verify_legacy_upgrade.py").is_file())
         for item in ("push:", "pull_request:", "workflow_dispatch:", "verify_current_licensing.py", "test_ci_lifecycle"):
             self.assertIn(item, active)
