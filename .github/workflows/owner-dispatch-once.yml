@@ -1,0 +1,24 @@
+name: One-time owner-requested historical dispatch v0.0.2.8
+on:
+  push:
+    branches: [audit/v0.0.2.8-explicit-dispatch]
+permissions:
+  contents: read
+  actions: write
+jobs:
+  dispatch:
+    if: github.repository == 'vixttha/Provenistem' && github.event.repository.private == false && github.ref == 'refs/heads/audit/v0.0.2.8-explicit-dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Dispatch the existing main workflow exactly once for owner-approved closure
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: vixttha/Provenistem
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$(gh api repos/vixttha/Provenistem/git/ref/heads/main --jq .object.sha)" = 299b0035083246a6d6bd9f3bad866383b0f8285f
+          gh api --method POST repos/vixttha/Provenistem/actions/workflows/licensing-candidate-review.yml/dispatches -f ref=main
+          echo "OWNER_REQUESTED_WORKFLOW_DISPATCH_ACCEPTED 299b0035083246a6d6bd9f3bad866383b0f8285f"
