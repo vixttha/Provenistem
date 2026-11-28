@@ -132,6 +132,8 @@ class LifecycleTests(unittest.TestCase):
         self.assertIn("ref: " + FROZEN, historical)
         self.assertIn("git rev-parse HEAD", historical)
         self.assertNotIn("verify_operative.py", active)
+        self.assertIn("python audit/verify_legacy_upgrade.py", active)
+        self.assertTrue((ROOT / "audit/verify_legacy_upgrade.py").is_file())
         for item in ("push:", "pull_request:", "workflow_dispatch:", "verify_current_licensing.py", "test_ci_lifecycle"):
             self.assertIn(item, active)
 
