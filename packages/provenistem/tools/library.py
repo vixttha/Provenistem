@@ -382,7 +382,16 @@ def cell(text):
         value = value.replace(ch, "\\" + ch)
     return value
 
-def index(kind, rows):
+def record_link(ident):
+    """Only portable, unambiguous filename segments may become Markdown links."""
+    if (not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", ident)
+            or PureWindowsPath(ident + ".json").is_reserved()):
+        raise ValueError(f"unsafe record ID for clickable navigation: {ident!r}; "
+                         "retain the legacy index until the host reviews its identifier policy")
+    return f"[{cell(ident)}](records/{ident}.json)"
+
+
+def index(kind, rows, *, linked=True):
     name = "Ideas" if kind == "ideas" else "Features"
     prefix = "IDEA" if kind == "ideas" else "FEAT"
     singular = "idea" if kind == "ideas" else "feature"
@@ -395,10 +404,22 @@ def index(kind, rows):
               f"| ID | {singular.title()} | Lifecycle | Implementation |",
               "| --- | --- | --- | --- |"]
     for ident, data in sorted(rows.items()):
-        output.append(f"| {cell(ident)} | {cell(data.get('title', ''))} | "
+        identifier = record_link(ident) if linked else cell(ident)
+        output.append(f"| {identifier} | {cell(data.get('title', ''))} | "
                       f"{cell(data.get('lifecycle_status', ''))} | "
                       f"{cell(data.get('implementation_status', ''))} |")
     return "\n".join(output) + "\n"
+
+
+def index_matches(kind, rows, actual):
+    """Accept only complete, accurate legacy or clickable renderings."""
+    if actual == index(kind, rows, linked=False):
+        return True
+    try:
+        return actual == index(kind, rows)
+    except ValueError:
+        # Customized legacy IDs can remain readable without manufacturing unsafe links.
+        return False
 
 
 def replace_indexes(root, encoded):
@@ -466,23 +487,27 @@ def run(root, action):
         for issue in problems:
             print("FAIL:", issue)
         return 1
-    views = {"ideas": index("ideas", ideas), "features": index("features", feats)}
+    records = {"ideas": ideas, "features": feats}
     if action == "build":
         # Encode every view before opening either index. A Unicode failure must
         # leave both existing files intact; bytes also preserve LF on Windows.
         encoded = {}
-        for kind, content in views.items():
+        for kind, rows in records.items():
             try:
+                content = index(kind, rows)
                 encoded[kind] = content.encode("utf-8", errors="strict")
             except UnicodeEncodeError:
                 print(f"FAIL: {kind}/INDEX.md: invalid Unicode (unpaired surrogate)")
                 return 1
+            except ValueError as exc:
+                print(f"FAIL: {kind}/INDEX.md: {exc}")
+                return 1
         problems.extend(replace_indexes(root, encoded))
     else:
-        for kind, expected in views.items():
+        for kind, rows in records.items():
             path = root / kind / "INDEX.md"
             try:
-                if not path.is_file() or path.read_text(encoding="utf-8") != expected:
+                if not path.is_file() or not index_matches(kind, rows, path.read_text(encoding="utf-8")):
                     problems.append(f"{kind}/INDEX.md: stale or missing; run build")
             except UnicodeDecodeError as exc:
                 problems.append(f"{kind}/INDEX.md: invalid UTF-8 at byte {exc.start}: "
@@ -527,7 +552,7 @@ def reconcile(root, title):
     for kind, records in (("ideas", ideas), ("features", feats)):
         path = root / kind / "INDEX.md"
         try:
-            if not path.is_file() or path.read_text(encoding="utf-8") != index(kind, records):
+            if not path.is_file() or not index_matches(kind, records, path.read_text(encoding="utf-8")):
                 stale.append(kind)
         except (OSError, UnicodeError):
             stale.append(kind)

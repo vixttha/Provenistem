@@ -30,6 +30,12 @@ The optional validator preserves exact decimal values during JSON parsing and `u
 
 No GitHub Actions workflow, runner configuration, release authorization, or development test-arm file is included in this portable package. Any CI is optional and host-owned. Prior source/host test receipts do not imply independent external security certification.
 
+### Clickable catalog navigation
+
+Generated populated indexes link each identifier to its own canonical JSON record using a relative path, for example the ID `IDEA-000001` links to `records/IDEA-000001.json` from `ideas/INDEX.md`. No hosted service is needed. Accurate plain-ID historical indexes and accurate clickable indexes are both supported by read-only `check` and `reconcile`, independently for each catalog. Empty indexes are unchanged. An authorized `build` regenerates both views in clickable format; it does not change records or schemas. Older tools that expect plain IDs may report newly generated indexes as stale; use the matching current tool after choosing to regenerate, or restore the old derived views with host approval.
+
+For customized identifier schemas, generated links require an ASCII alphanumeric initial character followed by ASCII letters, digits, dots, underscores or hyphens, and a non-reserved portable filename. Accurate legacy views with other identifiers remain valid; the clickable build stops before writing either view and reports the unsafe ID. Do not rename a host record automatically. Review the host's identifier policy before migrating. Titles and other record text remain escaped as data, not destinations.
+
 ### Recoverable index output failures
 
 The optional builder preflights both output paths, stages new bytes and prior copies in their respective directories, then replaces each index. A recoverable replacement failure triggers rollback of earlier replacements; if rollback itself fails, the diagnostic names the retained recovery directory and previous copy (or reports that the index was originally absent). Stop and reconcile manually in that case. No canonical records are changed. Run builds only in an isolated catalog without concurrent writers or readers requiring a consistent two-file snapshot. Individual replacements are not a multi-file atomic transaction, and a crash, power loss or failed rollback can still require manual recovery.
